@@ -7,1365 +7,186 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
 <style>
-  :root{
-    --ink:#0e1a14;
-    --ink-soft:#2a3a32;
-    --paper:#f4efe6;
-    --paper-2:#ebe4d4;
-    --paper-3:#e2d9c4;
-    --rule:#cabb9c;
-    --accent:#8a1f1f;        /* clinical oxblood */
-    --accent-2:#1f5a4a;      /* deep clinical green */
-    --accent-3:#b8651b;      /* warning amber */
-    --mute:#5d6b62;
-    --gold:#a07a2a;
-    --bad:#9b2226;
-    --good:#2b6a4f;
-    --shadow:0 1px 0 rgba(14,26,20,.06), 0 8px 24px -12px rgba(14,26,20,.18);
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0;padding:0;background:var(--paper);color:var(--ink);font-family:"Inter Tight",sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
-  body{
-    background-image:
-      radial-gradient(1200px 600px at 80% -10%, rgba(31,90,74,.06), transparent 60%),
-      radial-gradient(900px 500px at -10% 30%, rgba(138,31,31,.05), transparent 60%),
-      repeating-linear-gradient(0deg, transparent 0 39px, rgba(14,26,20,.025) 39px 40px);
-  }
-  /* ---------- NAV ---------- */
-  .nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);background:rgba(244,239,230,.88);border-bottom:1px solid var(--rule)}
-  .nav-inner{max-width:1280px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;gap:28px}
-  .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
-  .brand-mark{width:38px;height:38px;border:1.5px solid var(--ink);display:grid;place-items:center;font-family:"Fraunces",serif;font-weight:700;font-size:18px;background:var(--paper);position:relative}
-  .brand-mark::after{content:"";position:absolute;inset:3px;border:1px solid var(--ink);opacity:.35}
-  .brand-name{font-family:"Fraunces",serif;font-weight:600;font-size:20px;letter-spacing:-.01em;line-height:1}
-  .brand-sub{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);margin-top:3px}
-  .nav-links{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
-  .nav-links a{text-decoration:none;color:var(--ink-soft);font-size:13px;padding:8px 12px;border-radius:2px;font-weight:500;letter-spacing:.01em}
-  .nav-links a:hover{background:var(--paper-2);color:var(--accent)}
-  .nav-cta{display:flex;gap:8px;align-items:center}
-  .btn{font-family:"Inter Tight",sans-serif;font-size:13px;font-weight:500;padding:9px 16px;border:1px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer;letter-spacing:.02em;transition:all .15s ease}
-  .btn:hover{background:var(--ink);color:var(--paper)}
-  .btn-primary{background:var(--ink);color:var(--paper)}
-  .btn-primary:hover{background:var(--accent);border-color:var(--accent)}
-  .btn-sm{padding:6px 12px;font-size:12px}
-  .btn-accent{background:var(--accent);color:var(--paper);border-color:var(--accent)}
-  .btn-accent:hover{background:var(--ink);border-color:var(--ink)}
-
-  /* ---------- HERO ---------- */
-  .hero{max-width:1280px;margin:0 auto;padding:60px 28px 40px;position:relative}
-  .hero-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:60px;align-items:end}
+  /* Landing-specific */
+  .hero{max-width:1320px;margin:0 auto;padding:70px 28px 40px;position:relative}
+  .hero-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:60px;align-items:end}
   .eyebrow{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:18px;display:flex;align-items:center;gap:10px}
   .eyebrow::before{content:"";width:30px;height:1px;background:var(--accent)}
-  h1.display{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(48px,7vw,96px);line-height:.95;letter-spacing:-.03em;margin:0 0 24px;font-variation-settings:"opsz" 144}
+  h1.display{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(48px,7vw,100px);line-height:.95;letter-spacing:-.03em;margin:0 0 24px;font-variation-settings:"opsz" 144}
   h1.display em{font-style:italic;font-weight:300;color:var(--accent)}
-  .lede{font-family:"Fraunces",serif;font-size:20px;line-height:1.45;color:var(--ink-soft);font-weight:300;max-width:560px;font-variation-settings:"opsz" 14}
+  .lede{font-family:"Fraunces",serif;font-size:21px;line-height:1.45;color:var(--ink-soft);font-weight:300;max-width:600px;font-variation-settings:"opsz" 14}
   .hero-meta{border-top:1px solid var(--rule);padding-top:20px;font-size:12px;color:var(--mute);display:flex;flex-direction:column;gap:8px}
   .hero-meta strong{color:var(--ink);font-weight:600;letter-spacing:.05em;text-transform:uppercase;font-size:11px}
-  .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px;border-top:1px solid var(--rule);padding-top:32px}
+  .hero-actions{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}
+  .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin:50px auto 0;max-width:1320px;padding:32px 28px 0;border-top:1px solid var(--rule)}
   .stat .num{font-family:"Fraunces",serif;font-size:42px;font-weight:500;line-height:1;letter-spacing:-.02em}
   .stat .lbl{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);margin-top:8px}
   .stat .src{font-size:11px;color:var(--mute);margin-top:6px;font-style:italic}
 
-  /* ---------- SECTION HEADERS ---------- */
-  section{max-width:1280px;margin:0 auto;padding:80px 28px;position:relative}
-  .section-head{display:grid;grid-template-columns:200px 1fr;gap:40px;margin-bottom:50px;border-top:2px solid var(--ink);padding-top:24px}
-  .section-num{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--accent);letter-spacing:.1em}
-  .section-num span{display:block;font-family:"Fraunces",serif;font-size:64px;color:var(--ink);line-height:1;margin-top:6px;font-weight:300}
-  .section-title{font-family:"Fraunces",serif;font-size:clamp(32px,4vw,52px);font-weight:400;line-height:1.05;letter-spacing:-.02em;margin:0;font-variation-settings:"opsz" 72}
-  .section-title em{font-style:italic;color:var(--accent)}
-  .section-desc{margin-top:14px;font-size:15px;color:var(--ink-soft);max-width:780px;line-height:1.6}
+  /* Section overview */
+  .overview{max-width:1320px;margin:90px auto 0;padding:0 28px}
+  .overview h2{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(34px,4.5vw,56px);letter-spacing:-.02em;margin:0 0 14px;line-height:1.05}
+  .overview h2 em{font-style:italic;color:var(--accent)}
+  .overview > p{max-width:780px;font-size:15.5px;color:var(--ink-soft);margin:0 0 40px}
+  .sect-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .sect-card{background:var(--paper);border:1px solid var(--rule);padding:28px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:10px;position:relative;transition:transform .2s ease,box-shadow .2s ease,background .2s ease}
+  .sect-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);background:var(--paper-2)}
+  .sect-card .num{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--accent);letter-spacing:.15em}
+  .sect-card h3{font-family:"Fraunces",serif;font-size:26px;margin:0;font-weight:500;letter-spacing:-.01em;line-height:1.15}
+  .sect-card p{font-size:13.5px;color:var(--ink-soft);margin:0;line-height:1.55;flex:1}
+  .sect-card .arrow{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;margin-top:8px}
 
-  /* ---------- CARCINOGEN / TOPIC CARDS ---------- */
-  .topic-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule)}
-  .topic{background:var(--paper);padding:32px;position:relative;transition:background .2s ease}
-  .topic:hover{background:var(--paper-2)}
-  .topic-header{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:14px}
-  .topic-name{font-family:"Fraunces",serif;font-size:24px;font-weight:500;line-height:1.15;margin:0;letter-spacing:-.01em}
-  .topic-name small{display:block;font-family:"Inter Tight",sans-serif;font-size:12px;font-weight:400;color:var(--mute);margin-top:4px;font-style:italic}
-  .iarc{font-family:"JetBrains Mono",monospace;font-size:10px;padding:4px 8px;border:1px solid;letter-spacing:.05em;white-space:nowrap;font-weight:600}
-  .iarc.g1{background:#fdecec;color:var(--bad);border-color:var(--bad)}
-  .iarc.g2a{background:#fdf2e0;color:var(--accent-3);border-color:var(--accent-3)}
-  .iarc.g2b{background:#fff8e0;color:var(--gold);border-color:var(--gold)}
-  .iarc.lifestyle{background:#e9f1ec;color:var(--good);border-color:var(--good)}
-  .topic-body{font-size:14px;color:var(--ink-soft);line-height:1.6}
-  .topic-block{margin-top:14px}
-  .topic-block h5{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin:0 0 6px;font-weight:600}
-  .topic-block p,.topic-block ul{margin:0;font-size:13.5px;line-height:1.55;color:var(--ink-soft)}
-  .topic-block ul{padding-left:18px}
-  .topic-block ul li{margin-bottom:3px}
-  .topic-cite{margin-top:16px;padding-top:12px;border-top:1px dashed var(--rule);font-size:11px;color:var(--mute);font-style:italic;line-height:1.45}
-  .topic-cite strong{font-style:normal;color:var(--ink);font-weight:600}
+  /* Quote */
+  .pull{max-width:1100px;margin:90px auto;padding:0 28px;font-family:"Fraunces",serif;font-style:italic;font-weight:300;font-size:clamp(24px,3.4vw,40px);line-height:1.2;letter-spacing:-.015em;color:var(--ink)}
+  .pull::before{content:"“";font-size:1.4em;color:var(--accent);font-style:normal;line-height:0;vertical-align:-.2em;margin-right:.1em}
+  .pull cite{display:block;margin-top:18px;font-style:normal;font-family:"Inter Tight",sans-serif;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);font-weight:500}
 
-  /* ---------- CATEGORY TABS ---------- */
-  .cat-tabs{display:flex;gap:0;flex-wrap:wrap;margin-bottom:30px;border-bottom:1px solid var(--rule)}
-  .cat-tab{padding:14px 20px;font-size:13px;font-weight:500;letter-spacing:.02em;color:var(--mute);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:inherit}
-  .cat-tab:hover{color:var(--ink)}
-  .cat-tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
-  .cat-panel{display:none}
-  .cat-panel.active{display:block;animation:fadeIn .3s ease}
-  @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  /* Feature row */
+  .features{max-width:1320px;margin:0 auto 80px;padding:0 28px;display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+  .feature{padding-top:18px;border-top:2px solid var(--ink)}
+  .feature .lab{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--accent);letter-spacing:.1em;margin-bottom:10px}
+  .feature h4{font-family:"Fraunces",serif;font-size:22px;margin:0 0 6px;font-weight:500;letter-spacing:-.01em;line-height:1.15}
+  .feature p{font-size:13.5px;color:var(--ink-soft);margin:0;line-height:1.55}
 
-  /* ---------- TRACKER ---------- */
-  .tracker-shell{background:var(--paper-2);border:1px solid var(--rule);padding:0;position:relative}
-  .tracker-head{padding:24px 28px;border-bottom:1px solid var(--rule);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;background:var(--paper)}
-  .tracker-head h3{font-family:"Fraunces",serif;font-size:28px;margin:0;font-weight:500;letter-spacing:-.01em}
-  .tracker-head .today{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--mute)}
-  .tracker-body{padding:28px;display:grid;grid-template-columns:1fr 320px;gap:36px}
-  .tracker-list{display:flex;flex-direction:column;gap:2px}
-  .habit{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:12px 14px;background:var(--paper);border:1px solid transparent;transition:all .15s}
-  .habit:hover{border-color:var(--rule)}
-  .habit.checked{background:#eef4f0;border-color:#cfe0d6}
-  .habit input[type=checkbox]{appearance:none;width:22px;height:22px;border:1.5px solid var(--ink);background:var(--paper);cursor:pointer;display:grid;place-items:center;position:relative;flex-shrink:0}
-  .habit input[type=checkbox]:checked{background:var(--good);border-color:var(--good)}
-  .habit input[type=checkbox]:checked::after{content:"✓";color:var(--paper);font-size:14px;font-weight:bold}
-  .habit-text{font-size:14px;color:var(--ink)}
-  .habit-text small{display:block;font-size:11.5px;color:var(--mute);margin-top:2px}
-  .habit.checked .habit-text{text-decoration:line-through;text-decoration-color:var(--mute);color:var(--mute)}
-  .habit-tag{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);font-weight:500}
-  .tracker-stats{background:var(--paper);border:1px solid var(--rule);padding:22px}
-  .ts-row{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-bottom:1px dashed var(--rule)}
-  .ts-row:last-child{border-bottom:none}
-  .ts-row .l{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
-  .ts-row .v{font-family:"Fraunces",serif;font-size:22px;font-weight:500}
-  .progress-ring{width:140px;height:140px;margin:6px auto 16px;position:relative}
-  .progress-ring svg{transform:rotate(-90deg)}
-  .progress-ring .pct{position:absolute;inset:0;display:grid;place-items:center;font-family:"Fraunces",serif;font-size:34px;font-weight:500}
-
-  /* ---------- AUTH ---------- */
-  .modal-backdrop{position:fixed;inset:0;background:rgba(14,26,20,.6);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
-  .modal-backdrop.open{display:flex}
-  .modal{background:var(--paper);max-width:440px;width:100%;padding:40px;border:1px solid var(--ink);box-shadow:0 30px 80px rgba(0,0,0,.4);position:relative}
-  .modal-close{position:absolute;top:14px;right:14px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--mute)}
-  .modal h3{font-family:"Fraunces",serif;font-size:32px;font-weight:500;margin:0 0 6px;letter-spacing:-.01em}
-  .modal p.sub{font-size:13px;color:var(--mute);margin:0 0 24px}
-  .field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
-  .field label{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
-  .field input{padding:11px 14px;border:1px solid var(--rule);background:var(--paper);font-family:inherit;font-size:14px;color:var(--ink)}
-  .field input:focus{outline:none;border-color:var(--accent)}
-  .auth-switch{margin-top:18px;font-size:13px;color:var(--mute);text-align:center}
-  .auth-switch a{color:var(--accent);text-decoration:underline;cursor:pointer}
-  .auth-msg{font-size:12px;margin-top:10px;padding:8px 10px;background:#fdecec;color:var(--bad);border-left:3px solid var(--bad);display:none}
-  .auth-msg.ok{background:#e9f1ec;color:var(--good);border-left-color:var(--good)}
-  .auth-msg.show{display:block}
-
-  /* ---------- USER BADGE ---------- */
-  .user-badge{display:flex;align-items:center;gap:10px;padding:6px 12px 6px 6px;background:var(--paper-2);border:1px solid var(--rule)}
-  .user-avatar{width:28px;height:28px;background:var(--accent);color:var(--paper);display:grid;place-items:center;font-family:"Fraunces",serif;font-weight:600;font-size:13px;border-radius:50%}
-  .user-badge .name{font-size:13px;font-weight:500}
-  .user-badge .logout{background:none;border:none;font-size:11px;color:var(--mute);cursor:pointer;text-transform:uppercase;letter-spacing:.1em;padding:0 4px}
-  .user-badge .logout:hover{color:var(--accent)}
-
-  /* ---------- LIFESTYLE PROPOSALS ---------- */
-  .proposals{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-  .proposal{background:var(--paper);border:1px solid var(--rule);padding:24px;position:relative;display:flex;flex-direction:column;gap:10px;transition:transform .2s ease,box-shadow .2s ease}
-  .proposal:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
-  .proposal-icon{width:42px;height:42px;border:1.5px solid var(--ink);display:grid;place-items:center;font-family:"Fraunces",serif;font-weight:600;color:var(--accent-2);font-size:18px;background:var(--paper-2)}
-  .proposal h4{font-family:"Fraunces",serif;font-size:20px;font-weight:500;margin:0;line-height:1.2;letter-spacing:-.01em}
-  .proposal p{font-size:13.5px;color:var(--ink-soft);margin:0;line-height:1.55}
-  .proposal .ev{font-size:11px;color:var(--mute);font-style:italic;margin-top:auto;padding-top:10px;border-top:1px dashed var(--rule)}
-
-  /* ---------- INFO BLOCKS ---------- */
-  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:32px}
-  .info-card{background:var(--paper);border:1px solid var(--rule);padding:28px;position:relative}
-  .info-card::before{content:"";position:absolute;top:0;left:0;width:60px;height:3px;background:var(--accent)}
-  .info-card h4{font-family:"Fraunces",serif;font-size:22px;font-weight:500;margin:0 0 12px;letter-spacing:-.01em}
-  .info-card p{font-size:14px;color:var(--ink-soft);margin:0 0 10px;line-height:1.6}
-  .info-card ul{padding-left:18px;font-size:13.5px;color:var(--ink-soft);margin:8px 0}
-  .info-card li{margin-bottom:5px}
-
-  /* ---------- FOOTER & DISCLAIMER ---------- */
-  .disclaimer{background:#fdf6e7;border:1px solid #d8c890;padding:24px;margin:40px 0 0;font-size:13px;line-height:1.65;color:#5b4a1c}
-  .disclaimer strong{display:block;font-family:"Fraunces",serif;font-size:18px;color:#4b3a0d;margin-bottom:6px;letter-spacing:.02em}
-  footer{background:var(--ink);color:var(--paper);padding:50px 28px 30px;margin-top:80px}
-  .foot-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px}
-  .foot-brand .brand-name{color:var(--paper);font-size:24px}
-  .foot-brand p{font-size:13px;color:#a8b8af;line-height:1.6;margin:14px 0 0}
-  .foot-col h5{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#a8b8af;margin:0 0 14px}
-  .foot-col a{display:block;color:var(--paper);text-decoration:none;font-size:13px;padding:4px 0;opacity:.85}
-  .foot-col a:hover{opacity:1;color:#d6a657}
-  .foot-bottom{max-width:1280px;margin:40px auto 0;padding-top:24px;border-top:1px solid #2a3a32;font-size:12px;color:#a8b8af;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
-  .foot-bottom .copy{font-family:"Fraunces",serif;font-style:italic}
-
-  /* ---------- SEARCH ---------- */
-  .search-bar{display:flex;align-items:center;gap:10px;padding:8px 14px;background:var(--paper);border:1px solid var(--rule);max-width:420px;margin-bottom:24px}
-  .search-bar input{border:none;background:none;flex:1;font-family:inherit;font-size:14px;color:var(--ink);outline:none;padding:4px 0}
-  .search-bar svg{flex-shrink:0;color:var(--mute)}
-
-  /* ---------- PRINT ---------- */
-  @media print{
-    .nav,.modal-backdrop,footer,.btn,.cat-tabs,.search-bar{display:none !important}
-    body{background:#fff !important}
-    .cat-panel{display:block !important;page-break-inside:avoid}
-    section{padding:30px 0}
-    .topic-grid{grid-template-columns:1fr 1fr}
-  }
-
-  /* ---------- RESPONSIVE ---------- */
   @media (max-width:960px){
     .hero-grid{grid-template-columns:1fr;gap:30px}
-    .section-head{grid-template-columns:1fr;gap:14px}
-    .topic-grid{grid-template-columns:1fr}
-    .proposals{grid-template-columns:1fr}
-    .twocol{grid-template-columns:1fr}
-    .tracker-body{grid-template-columns:1fr}
-    .foot-inner{grid-template-columns:1fr 1fr;gap:30px}
     .hero-stats{grid-template-columns:1fr;gap:20px}
-    .nav-links{display:none}
+    .sect-grid{grid-template-columns:1fr}
+    .features{grid-template-columns:1fr 1fr}
   }
 </style>
 </head>
 <body>
 
-<!-- ============== NAV ============== -->
 <nav class="nav">
   <div class="nav-inner">
-    <a href="#top" class="brand">
+    <a href="index.html" class="brand">
       <div class="brand-mark">T21</div>
       <div>
         <div class="brand-name">Team21 Health Platform</div>
         <div class="brand-sub">Preventive Intelligence · Est. 2025</div>
       </div>
     </a>
-    <div class="nav-links">
-      <a href="#carcinogens">Carcinogens</a>
-      <a href="#additives">Food Additives</a>
-      <a href="#lifestyle">Lifestyle</a>
-      <a href="#proposals">Proposals</a>
-      <a href="#tracker">Tracker</a>
-      <a href="#evidence">Evidence</a>
-    </div>
-    <div class="nav-cta" id="navCta">
-      <button class="btn btn-sm" id="loginBtn">Sign In</button>
-      <button class="btn btn-sm btn-primary" id="registerBtn">Create Account</button>
-    </div>
+    <div class="nav-cta" id="navCta"></div>
   </div>
 </nav>
 
-<!-- ============== HERO ============== -->
 <header class="hero" id="top">
   <div class="hero-grid">
     <div>
       <div class="eyebrow">A Peer-Reviewed Preventive Health Resource</div>
       <h1 class="display">The science of <em>not</em> getting sick.</h1>
-      <p class="lede">A comprehensive, evidence-based platform mapping the dietary, environmental, and behavioural factors implicated in cancer and chronic disease — drawn from IARC monographs, WHO position papers, NIH reviews, and peer-reviewed cohort studies. Track your daily choices. Save your progress. Print your plan.</p>
+      <p class="lede">A comprehensive, evidence-based platform mapping the dietary, environmental, and behavioural factors implicated in cancer and chronic disease — drawn from IARC monographs, WHO position papers, NIH reviews, and peer-reviewed cohort studies.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="carcinogens.html">Browse the library →</a>
+        <a class="btn" href="tracker.html">Start tracking</a>
+        <a class="btn" href="community.html">Ask a question</a>
+      </div>
     </div>
     <aside class="hero-meta">
       <div><strong>Edition</strong> Volume 01 · 2026</div>
       <div><strong>Sources</strong> IARC · WHO · NIH · AICR · ACS · Lancet · BMJ · NEJM · JAMA</div>
-      <div><strong>Coverage</strong> 60+ exposure factors · 40+ lifestyle proposals · daily habit tracker</div>
+      <div><strong>Coverage</strong> 60+ exposure factors · 40+ lifestyle proposals · daily habit tracker · community Q&A</div>
       <div><strong>Editor</strong> Innocent Forteh</div>
     </aside>
   </div>
-  <div class="hero-stats">
-    <div class="stat">
-      <div class="num">30–50%</div>
-      <div class="lbl">of cancers are preventable</div>
-      <div class="src">— WHO, Cancer Prevention (2023)</div>
-    </div>
-    <div class="stat">
-      <div class="num">74%</div>
-      <div class="lbl">of global deaths from NCDs</div>
-      <div class="src">— WHO, Noncommunicable Diseases Factsheet</div>
-    </div>
-    <div class="stat">
-      <div class="num">~40%</div>
-      <div class="lbl">of new cancer cases linked to modifiable risk</div>
-      <div class="src">— American Cancer Society, 2024</div>
-    </div>
-  </div>
 </header>
 
-<!-- ============== CARCINOGENS SECTION ============== -->
-<section id="carcinogens">
-  <div class="section-head">
-    <div class="section-num">PART ONE<span>01</span></div>
-    <div>
-      <h2 class="section-title">Known & Probable <em>Carcinogens</em> in Everyday Life</h2>
-      <p class="section-desc">The International Agency for Research on Cancer (IARC) classifies agents into <strong>Group 1</strong> (carcinogenic to humans), <strong>Group 2A</strong> (probably carcinogenic), and <strong>Group 2B</strong> (possibly carcinogenic). Each entry below identifies common sources, hidden synonyms used on ingredient labels, and the strength of evidence.</p>
-    </div>
+<div class="hero-stats">
+  <div class="stat">
+    <div class="num">30–50%</div>
+    <div class="lbl">of cancers are preventable</div>
+    <div class="src">— WHO, Cancer Prevention (2023)</div>
   </div>
-
-  <div class="search-bar">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-    <input type="text" id="topicSearch" placeholder="Search carcinogens, additives, exposures…" />
+  <div class="stat">
+    <div class="num">74%</div>
+    <div class="lbl">of global deaths from NCDs</div>
+    <div class="src">— WHO, Noncommunicable Diseases Factsheet</div>
   </div>
-
-  <div class="cat-tabs" id="catTabs">
-    <button class="cat-tab active" data-cat="diet">Diet & Beverages</button>
-    <button class="cat-tab" data-cat="additives">Food Additives & Processing</button>
-    <button class="cat-tab" data-cat="environment">Environmental & Physical</button>
-    <button class="cat-tab" data-cat="lifestyle-risk">Lifestyle Exposures</button>
-    <button class="cat-tab" data-cat="occupational">Occupational & Chemical</button>
-  </div>
-
-  <!-- =========== PANEL: DIET =========== -->
-  <div class="cat-panel active" data-panel="diet">
-    <div class="topic-grid">
-
-      <article class="topic" data-name="processed meat bacon sausage ham deli salami hot dog">
-        <div class="topic-header">
-          <h3 class="topic-name">Processed Meat<small>bacon, sausage, ham, salami, hot dogs, deli meats</small></h3>
-          <span class="iarc g1">IARC Group 1</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>What it is</h5><p>Meat preserved by smoking, curing, salting, or addition of chemical preservatives (notably sodium nitrite/nitrate). High-temperature processing forms N-nitroso compounds, heterocyclic amines (HCAs), and polycyclic aromatic hydrocarbons (PAHs).</p></div>
-          <div class="topic-block"><h5>Where you'll find it</h5><ul><li>Bacon, ham, prosciutto, pancetta</li><li>Hot dogs, frankfurters, bratwurst</li><li>Salami, pepperoni, chorizo, mortadella</li><li>Deli sliced turkey, chicken roll, corned beef</li><li>Canned meat (Spam), beef jerky, biltong</li></ul></div>
-          <div class="topic-block"><h5>Label aliases</h5><p>"Uncured" meats with celery powder or celery juice contain natural nitrates that convert to nitrites identically; "smoke flavoring," "sodium nitrite (E250)," "sodium nitrate (E251)," "potassium nitrate (E252)."</p></div>
-          <div class="topic-block"><h5>Risk evidence</h5><p>Each 50 g/day increase in processed meat raises colorectal cancer risk by ~18%. Also linked to stomach cancer and ischaemic heart disease.</p></div>
-          <p class="topic-cite"><strong>Sources:</strong> IARC Monograph Vol. 114 (2018); Bouvard et al., <em>Lancet Oncology</em> (2015); WHO Q&A on red & processed meat (2015).</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="red meat beef pork lamb">
-        <div class="topic-header">
-          <h3 class="topic-name">Red Meat<small>beef, pork, lamb, mutton, veal, goat</small></h3>
-          <span class="iarc g2a">IARC Group 2A</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>What it is</h5><p>Unprocessed mammalian muscle meat. Heme iron content, plus mutagens formed when meat is cooked at high temperatures (grilling, frying, barbecuing), are the primary suspected mechanisms.</p></div>
-          <div class="topic-block"><h5>Where you'll find it</h5><ul><li>Steaks, roasts, ground beef, hamburgers</li><li>Pork chops, pork tenderloin, ribs</li><li>Lamb, mutton, goat, veal</li></ul></div>
-          <div class="topic-block"><h5>Higher-risk preparations</h5><p>Charred, blackened, grilled-over-flame, deep-fried or pan-seared meats produce heterocyclic amines (HCAs) and polycyclic aromatic hydrocarbons (PAHs). Slow-cooked, braised, stewed or boiled meats have markedly lower mutagen formation.</p></div>
-          <div class="topic-block"><h5>Risk evidence</h5><p>Each 100 g/day increase associated with ~17% higher colorectal cancer risk; weaker associations with pancreatic and prostate cancer.</p></div>
-          <p class="topic-cite"><strong>Sources:</strong> IARC Monograph Vol. 114; World Cancer Research Fund (WCRF/AICR) Continuous Update Project, 2018.</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="alcohol ethanol wine beer spirits liquor">
-        <div class="topic-header">
-          <h3 class="topic-name">Alcoholic Beverages<small>ethanol from wine, beer, spirits</small></h3>
-          <span class="iarc g1">IARC Group 1</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>What it is</h5><p>Ethanol is metabolised to acetaldehyde, itself a Group 1 carcinogen that damages DNA. There is <em>no safe level</em> of alcohol consumption with respect to cancer risk (WHO, 2023 Lancet statement).</p></div>
-          <div class="topic-block"><h5>Cancers causally linked</h5><ul><li>Mouth, pharynx, larynx, oesophagus</li><li>Liver (hepatocellular carcinoma)</li><li>Breast (even at low intake — 1 drink/day raises risk ~7–10%)</li><li>Colorectum</li></ul></div>
-          <div class="topic-block"><h5>Risk evidence</h5><p>About 4% of all new cancers globally (≈740,000 cases in 2020) attributable to alcohol; light drinking (≤2 drinks/day) responsible for 14% of alcohol-attributable cancers.</p></div>
-          <p class="topic-cite"><strong>Sources:</strong> IARC Monograph Vol. 100E; Rumgay et al., <em>Lancet Oncology</em> (2021); WHO Europe (2023): "No safe amount of alcohol."</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="sugary drinks soda soft drink fructose corn syrup">
-        <div class="topic-header">
-          <h3 class="topic-name">Sugar-Sweetened Beverages<small>soda, energy drinks, sweetened juice, sweet tea</small></h3>
-          <span class="iarc lifestyle">Strong dietary risk</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>What it is</h5><p>Beverages with added free sugars — sucrose, high-fructose corn syrup (HFCS), glucose-fructose syrup, fruit juice concentrates. Rapid glucose & fructose absorption drives insulin spikes, hepatic de novo lipogenesis, and weight gain.</p></div>
-          <div class="topic-block"><h5>Hidden names on labels</h5><ul><li>HFCS-55, HFCS-42, glucose-fructose syrup, isoglucose</li><li>Cane sugar, evaporated cane juice, beet sugar, dextrose</li><li>Agave nectar, fruit juice concentrate, rice syrup</li><li>Maltose, maltodextrin, sucrose, invert sugar</li></ul></div>
-          <div class="topic-block"><h5>Linked outcomes</h5><p>Type 2 diabetes, obesity, fatty liver disease, hypertension, cardiovascular disease, and, via obesity, ≥13 cancers (endometrial, oesophageal adenocarcinoma, kidney, liver, post-menopausal breast).</p></div>
-          <p class="topic-cite"><strong>Sources:</strong> Malik & Hu, <em>Nature Reviews Endocrinology</em> (2022); WHO Sugar Guideline (2015); Llaha et al., <em>Nutrients</em> (2021) — SSB & cancer meta-analysis.</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="aflatoxin mould peanuts corn">
-        <div class="topic-header">
-          <h3 class="topic-name">Aflatoxins<small>mould toxin contaminating grains & nuts</small></h3>
-          <span class="iarc g1">IARC Group 1</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>What it is</h5><p>Mycotoxins produced by <em>Aspergillus flavus</em> and <em>A. parasiticus</em>. Aflatoxin B1 is among the most potent natural hepatocarcinogens known.</p></div>
-          <div class="topic-block"><h5>Foods at risk</h5><ul><li>Peanuts and peanut butter (especially from humid storage)</li><li>Maize/corn, sorghum, millet</li><li>Tree nuts (pistachios, Brazil nuts, almonds)</li><li>Dried figs, copra, cottonseed</li><li>Milk from animals fed contaminated feed (aflatoxin M1)</li></ul></div>
-          <div class="topic-block"><h5>Reduce exposure</h5><p>Buy fresh, properly stored nuts/grains. Discard mouldy, discoloured or shriveled kernels. Store in cool, dry conditions. Regulated maximum levels exist in EU, US, China — but exposure remains high in many regions.</p></div>
-          <p class="topic-cite"><strong>Sources:</strong> IARC Monograph Vol. 100F; Liu & Wu, <em>Environmental Health Perspectives</em> (2010) — global hepatocellular carcinoma burden from aflatoxin.</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="acrylamide fried potato chips bread coffee">
-        <div class="topic-header">
-          <h3 class="topic-name">Acrylamide<small>formed in starchy foods cooked above ~120°C</small></h3>
-          <span class="iarc g2a">IARC Group 2A</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>What it is</h5><p>A chemical formed via the Maillard reaction between the amino acid asparagine and reducing sugars during high-temperature dry cooking (frying, roasting, baking, toasting).</p></div>
-          <div class="topic-block"><h5>Main dietary sources</h5><ul><li>French fries, potato chips/crisps</li><li>Roasted coffee (especially dark roasts)</li><li>Toast, crackers, breakfast cereals</li><li>Biscuits, pretzels, baked goods</li><li>Browned bread crusts</li></ul></div>
-          <div class="topic-block"><h5>Reduce exposure</h5><p>Cook potatoes to a golden-yellow (not brown) colour. Store potatoes outside the refrigerator (cold storage raises sugar levels). Toast bread lightly. Soak raw potato slices for 15–30 min before frying.</p></div>
-          <p class="topic-cite"><strong>Sources:</strong> EFSA Scientific Opinion on Acrylamide in Food (2015); IARC Monograph Vol. 60; FDA Acrylamide Action Plan.</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="trans fat partially hydrogenated oil margarine">
-        <div class="topic-header">
-          <h3 class="topic-name">Industrial Trans Fats<small>partially hydrogenated vegetable oils</small></h3>
-          <span class="iarc lifestyle">Cardiovascular & metabolic risk</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>What it is</h5><p>Unsaturated fats with one or more <em>trans</em> double bonds, mostly produced industrially by partial hydrogenation of vegetable oils. Banned or phased out in many countries (US, EU, Denmark, Canada).</p></div>
-          <div class="topic-block"><h5>Where they may still hide</h5><ul><li>"Partially hydrogenated" oils (any kind)</li><li>Vegetable shortening, some margarines</li><li>Commercial baked goods: pies, doughnuts, biscuits</li><li>Microwave popcorn, non-dairy creamers</li><li>Deep-fried street foods using re-used oil</li></ul></div>
-          <div class="topic-block"><h5>Outcomes</h5><p>Each 2% energy intake from trans fat raises coronary heart disease risk by ~23%. WHO target: eliminate industrial trans fats globally by 2025.</p></div>
-          <p class="topic-cite"><strong>Sources:</strong> WHO REPLACE Action Package (2018); Mozaffarian et al., <em>NEJM</em> (2006); Brandt et al., <em>JAMA</em> (2017).</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="ultra processed food upf">
-        <div class="topic-header">
-          <h3 class="topic-name">Ultra-Processed Foods<small>NOVA group 4 — industrial formulations</small></h3>
-          <span class="iarc lifestyle">Strong epidemiologic risk</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>What it is</h5><p>Industrial formulations made primarily from substances extracted from foods (oils, starches, sugars, protein isolates) and additives, with little to no whole food. Defined by the NOVA classification.</p></div>
-          <div class="topic-block"><h5>Common examples</h5><ul><li>Soft drinks, sweetened breakfast cereals</li><li>Packaged snacks, chocolate bars, ice cream</li><li>Instant noodles, dehydrated soups</li><li>Reconstituted meat products (nuggets, sausages)</li><li>Mass-produced breads with emulsifiers</li><li>Margarines, "fruit" drinks, flavoured yoghurts</li></ul></div>
-          <div class="topic-block"><h5>Outcomes (per 10% increase in UPF intake)</h5><p>+12% overall cancer, +11% breast cancer (Fiolet et al., BMJ 2018); higher all-cause mortality (Schnabel et al., JAMA IM 2019); +24% cardiovascular events (Srour et al., BMJ 2019).</p></div>
-          <p class="topic-cite"><strong>Sources:</strong> Monteiro et al., <em>Public Health Nutrition</em> (NOVA framework); Lane et al., <em>BMJ</em> umbrella review (2024).</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="very hot beverages tea coffee mate">
-        <div class="topic-header">
-          <h3 class="topic-name">Very Hot Beverages (>65°C)<small>tea, coffee, mate — when scalding hot</small></h3>
-          <span class="iarc g2a">IARC Group 2A</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>What it is</h5><p>Repeated thermal injury to oesophageal epithelium from beverages drunk at very high temperatures. The risk is from temperature, not the beverage itself.</p></div>
-          <div class="topic-block"><h5>Reduce risk</h5><p>Allow tea, coffee, and mate to cool to a comfortable drinking temperature (below ~60°C). The beverages themselves — coffee in particular — are not classified as carcinogenic; coffee was downgraded from Group 2B in 2016.</p></div>
-          <p class="topic-cite"><strong>Sources:</strong> IARC Monograph Vol. 116 (2018); Loomis et al., <em>Lancet Oncology</em> (2016).</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="salted fish chinese style salt preserved">
-        <div class="topic-header">
-          <h3 class="topic-name">Chinese-Style Salted Fish<small>and other heavily salt-preserved fish</small></h3>
-          <span class="iarc g1">IARC Group 1</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>What it is</h5><p>Fish preserved by salting and partial drying. Generates N-nitroso compounds and other genotoxic intermediates. Strongly associated with nasopharyngeal carcinoma, particularly when consumed in childhood.</p></div>
-          <div class="topic-block"><h5>Broader picture</h5><p>High dietary salt intake more generally is associated with elevated risk of stomach cancer and hypertension. WHO recommends <5 g/day of salt (≈1 tsp).</p></div>
-          <p class="topic-cite"><strong>Sources:</strong> IARC Monograph Vol. 100E; WHO Sodium Intake for Adults and Children (2012).</p>
-        </div>
-      </article>
-
-    </div>
-  </div>
-
-  <!-- =========== PANEL: ADDITIVES =========== -->
-  <div class="cat-panel" data-panel="additives" id="additives">
-    <div class="topic-grid">
-
-      <article class="topic" data-name="carrageenan thickener seaweed">
-        <div class="topic-header">
-          <h3 class="topic-name">Carrageenan<small>seaweed-derived thickener & stabiliser</small></h3>
-          <span class="iarc g2b">Degraded form: IARC 2B</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>What it is</h5><p>A polysaccharide extracted from red seaweed (chondrus crispus, eucheuma). Used as a thickener, emulsifier, gelling agent. <em>Degraded</em> carrageenan (low molecular weight, also called poligeenan) is classified Group 2B by IARC; <em>food-grade</em> (undegraded) carrageenan remains approved by JECFA and FDA, though it has been shown in animal and in-vitro studies to promote intestinal inflammation.</p></div>
-          <div class="topic-block"><h5>Where to find it</h5><ul><li>Dairy: chocolate milk, ice cream, cottage cheese, cream cheese, whipped cream, infant formula (some brands)</li><li>Plant milks: almond, soy, coconut, oat (especially "barista" formulations)</li><li>Deli meats and reformed meat products</li><li>Yogurts and dairy desserts</li><li>Salad dressings, sauces, jellies</li><li>Toothpaste, some pharmaceuticals</li></ul></div>
-          <div class="topic-block"><h5>Label aliases</h5><p>"Carrageenan," "carrageen," "Irish moss extract," "E407" or "E407a" (processed eucheuma seaweed, PES), "vegetable gum," "PNG carrageenan." Note that some "carrageenan-free" plant milks substitute gellan gum or locust bean gum.</p></div>
-          <p class="topic-cite"><strong>Sources:</strong> IARC Monograph Vol. 31 (degraded carrageenan); Tobacman, <em>Environmental Health Perspectives</em> (2001); JECFA 79th meeting (2015); McKim, <em>Critical Reviews in Toxicology</em> (2014).</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="aspartame sweetener artificial">
-        <div class="topic-header">
-          <h3 class="topic-name">Aspartame<small>artificial non-nutritive sweetener</small></h3>
-          <span class="iarc g2b">IARC Group 2B (2023)</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>What it is</h5><p>Aspartyl-phenylalanine methyl ester. Approximately 200× sweeter than sucrose. In July 2023 IARC classified aspartame as "possibly carcinogenic to humans" (Group 2B), citing limited evidence for hepatocellular carcinoma. JECFA retained the acceptable daily intake (ADI) of 40 mg/kg body weight.</p></div>
-          <div class="topic-block"><h5>Where to find it</h5><ul><li>Diet sodas (Diet Coke, Coke Zero (varies by country), Diet Pepsi)</li><li>Sugar-free chewing gum</li><li>"Light"/"Zero" yogurts and desserts</li><li>Sugar-free flavoured water, drink mixes</li><li>Tabletop sweeteners (Equal, NutraSweet, Canderel)</li><li>Some children's vitamins and medicines</li></ul></div>
-          <div class="topic-block"><h5>Label aliases</h5><p>"Aspartame," "E951," "NutraSweet," "Equal," "Canderel," "AminoSweet," "Pal Sweet." Often co-formulated with acesulfame K (Ace-K, E950).</p></div>
-          <p class="topic-cite"><strong>Sources:</strong> IARC/WHO joint press release & monograph (July 2023); JECFA report (2023); Riboli et al., <em>Lancet Oncology</em> editorial (2023).</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="sodium nitrite nitrate preservative">
-        <div class="topic-header">
-          <h3 class="topic-name">Sodium Nitrite & Nitrate<small>cured meat preservatives</small></h3>
-          <span class="iarc g2a">"Ingested nitrate/nitrite under conditions resulting in endogenous nitrosation" — IARC 2A</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>What it is</h5><p>Preservatives that prevent <em>Clostridium botulinum</em> growth and give cured meats their pink colour. In the acidic stomach environment they form N-nitroso compounds, including nitrosamines, which are genotoxic.</p></div>
-          <div class="topic-block"><h5>Where to find them</h5><ul><li>Bacon, ham, hot dogs, salami, pepperoni</li><li>"Uncured" meats made with celery juice/powder (chemically identical exposure)</li><li>Some smoked fish</li></ul></div>
-          <div class="topic-block"><h5>Label aliases</h5><p>"Sodium nitrite (E250)," "sodium nitrate (E251)," "potassium nitrite (E249)," "potassium nitrate / saltpetre (E252)," "celery powder," "celery juice concentrate," "natural curing agents."</p></div>
-          <p class="topic-cite"><strong>Sources:</strong> IARC Monograph Vol. 94; EFSA opinion on nitrates and nitrites (2017).</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="bha bht preservative antioxidant">
-        <div class="topic-header">
-          <h3 class="topic-name">BHA & BHT<small>butylated hydroxyanisole / hydroxytoluene</small></h3>
-          <span class="iarc g2b">BHA: IARC Group 2B</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>What it is</h5><p>Synthetic antioxidants added to fat-containing foods to prevent rancidity. BHA (butylated hydroxyanisole) is classified Group 2B; BHT (butylated hydroxytoluene) has shown contradictory animal data and is considered less concerning by most regulators.</p></div>
-          <div class="topic-block"><h5>Where to find them</h5><ul><li>Cereals, granola bars, instant mashed potatoes</li><li>Chewing gum (especially older formulations)</li><li>Snack chips, crackers, vegetable oils</li><li>Lard, shortening, butter substitutes</li><li>Some pet foods and rubber/petroleum products</li></ul></div>
-          <div class="topic-block"><h5>Label aliases</h5><p>"BHA," "Butylated hydroxyanisole," "E320." "BHT," "Butylated hydroxytoluene," "E321." Sometimes listed simply as "to preserve freshness" — check ingredients.</p></div>
-          <p class="topic-cite"><strong>Sources:</strong> IARC Monograph Vol. 40; US NTP Report on Carcinogens (BHA); EFSA re-evaluation (2012).</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="titanium dioxide e171 white pigment">
-        <div class="topic-header">
-          <h3 class="topic-name">Titanium Dioxide (E171)<small>white food pigment</small></h3>
-          <span class="iarc g2b">IARC Group 2B (inhaled)</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>What it is</h5><p>Inorganic white pigment containing nano-sized particles. In May 2021, EFSA concluded E171 "can no longer be considered safe as a food additive" due to genotoxicity concerns; the EU banned it in food from August 2022. Still permitted in the US and many other markets.</p></div>
-          <div class="topic-block"><h5>Where to find it</h5><ul><li>Chewing gum, white-coated candies (Skittles, mints)</li><li>White icing, frostings, some marshmallows</li><li>Coffee creamers, white sauces</li><li>Toothpaste, sunscreens, cosmetics (different exposure route)</li><li>Pharmaceutical tablet coatings</li></ul></div>
-          <div class="topic-block"><h5>Label aliases</h5><p>"Titanium dioxide," "E171," "CI 77891," "TiO2."</p></div>
-          <p class="topic-cite"><strong>Sources:</strong> EFSA Scientific Opinion on E171 (2021); IARC Monograph Vol. 93.</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="food dye artificial color red 40 yellow 5">
-        <div class="topic-header">
-          <h3 class="topic-name">Synthetic Food Dyes<small>azo and triphenylmethane colours</small></h3>
-          <span class="iarc lifestyle">Behavioural & possible carcinogenic concerns</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>What they are</h5><p>Petrochemical-derived colour additives. California's 2021 OEHHA assessment linked several to behavioural effects in children. Red 3 (Erythrosine) is banned in cosmetics in the US since 1990 and was banned by the FDA in food in 2025 due to thyroid tumour findings in rats.</p></div>
-          <div class="topic-block"><h5>Where to find them</h5><ul><li>Candy, popsicles, sports drinks, sodas</li><li>Cereal, fruit snacks, gelatin desserts</li><li>Cake mixes, frostings, sprinkles</li><li>Pickles, smoked fish, salmon-coloured products</li><li>Some medications and toothpastes</li></ul></div>
-          <div class="topic-block"><h5>Label aliases (most common)</h5><ul><li><strong>Red 40</strong> — Allura Red AC, E129</li><li><strong>Red 3</strong> — Erythrosine, E127</li><li><strong>Yellow 5</strong> — Tartrazine, E102</li><li><strong>Yellow 6</strong> — Sunset Yellow FCF, E110</li><li><strong>Blue 1</strong> — Brilliant Blue FCF, E133</li><li><strong>Blue 2</strong> — Indigo Carmine, E132</li><li><strong>Green 3</strong> — Fast Green FCF, E143</li></ul></div>
-          <p class="topic-cite"><strong>Sources:</strong> California OEHHA, <em>Health Effects Assessment: Synthetic Food Dyes in Children</em> (2021); FDA Red 3 revocation (January 2025); JECFA evaluations.</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="msg monosodium glutamate flavor enhancer">
-        <div class="topic-header">
-          <h3 class="topic-name">Monosodium Glutamate (MSG)<small>and related flavour enhancers</small></h3>
-          <span class="iarc lifestyle">Generally Recognized As Safe (FDA)</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>What it is</h5><p>Sodium salt of glutamic acid. Despite persistent public concern, controlled trials have not confirmed the "Chinese restaurant syndrome." FDA classifies as GRAS. Concern is mainly that MSG appears in ultra-processed foods and may promote overeating.</p></div>
-          <div class="topic-block"><h5>Label aliases (often used to avoid the term "MSG")</h5><ul><li>"Hydrolysed vegetable protein," "yeast extract," "autolysed yeast"</li><li>"Sodium caseinate," "calcium caseinate"</li><li>"Glutamate," "glutamic acid," "E621"</li><li>"Natural flavour" (may contain glutamate)</li><li>"Soy protein isolate," "soy sauce powder"</li></ul></div>
-          <p class="topic-cite"><strong>Sources:</strong> FDA: Questions and Answers on MSG (2012); JECFA "ADI not specified" (1987); Henry-Unaeze, <em>Pathophysiology</em> (2017).</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="emulsifier polysorbate 80 lecithin">
-        <div class="topic-header">
-          <h3 class="topic-name">Synthetic Emulsifiers<small>polysorbates, carboxymethylcellulose</small></h3>
-          <span class="iarc lifestyle">Emerging metabolic/inflammatory concern</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>What they are</h5><p>Industrial emulsifiers used to keep oil and water mixed. Animal and recent human studies suggest some disrupt the gut microbiota and mucus layer, promoting low-grade inflammation. The NutriNet-Santé cohort (Sellem et al., BMJ 2023) linked polysorbate 80 and CMC intake to cardiovascular and cancer outcomes.</p></div>
-          <div class="topic-block"><h5>Where to find them</h5><ul><li>Ice cream, frozen desserts, whipped toppings</li><li>Salad dressings, sauces, mayonnaises</li><li>Industrial breads, cakes, baked goods</li><li>Plant-based milks, coffee creamers</li></ul></div>
-          <div class="topic-block"><h5>Label aliases</h5><p>"Polysorbate 80" (E433), "Polysorbate 60" (E435), "Carboxymethylcellulose / CMC" (E466), "mono- and diglycerides of fatty acids" (E471), "DATEM" (E472e), "lecithin" (E322 — generally well tolerated).</p></div>
-          <p class="topic-cite"><strong>Sources:</strong> Chassaing et al., <em>Nature</em> (2015); Sellem et al., <em>BMJ</em> (2023); Naimi et al., <em>Microbiome</em> (2021).</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="potassium bromate flour improver">
-        <div class="topic-header">
-          <h3 class="topic-name">Potassium Bromate<small>flour "improver" / dough conditioner</small></h3>
-          <span class="iarc g2b">IARC Group 2B</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>What it is</h5><p>Oxidising agent added to flour to strengthen dough and produce higher-volume loaves. Banned for food use in the EU, UK, Canada, Brazil, China, Argentina, Nigeria and many others; still permitted in the US (though widely phased out by major brands) and a few Asian countries.</p></div>
-          <div class="topic-block"><h5>Where to find it</h5><ul><li>Some commercial breads, buns, rolls (especially in regions where still permitted)</li><li>Some pizza doughs and bagels</li></ul></div>
-          <div class="topic-block"><h5>Label aliases</h5><p>"Potassium bromate," "bromated flour," "E924" (delisted in EU).</p></div>
-          <p class="topic-cite"><strong>Sources:</strong> IARC Monograph Vol. 73; CSPI petition history; EFSA opinion.</p>
-        </div>
-      </article>
-
-    </div>
-  </div>
-
-  <!-- =========== PANEL: ENVIRONMENT =========== -->
-  <div class="cat-panel" data-panel="environment">
-    <div class="topic-grid">
-
-      <article class="topic" data-name="solar uv sun sunbed tanning">
-        <div class="topic-header">
-          <h3 class="topic-name">Solar Ultraviolet Radiation<small>UVA + UVB from sun and tanning beds</small></h3>
-          <span class="iarc g1">IARC Group 1</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>What it is</h5><p>UVB (290–320 nm) causes direct DNA damage (pyrimidine dimers); UVA (320–400 nm) penetrates deeper and generates reactive oxygen species. Both contribute to basal cell carcinoma, squamous cell carcinoma, and melanoma. Tanning beds are an independent Group 1 carcinogen.</p></div>
-          <div class="topic-block"><h5>Practical guidance</h5><ul><li>Seek shade 10 a.m.–4 p.m. when UV index ≥3</li><li>Broad-spectrum sunscreen SPF 30+; reapply every 2 hours and after swimming</li><li>Wide-brim hat, UV-protective clothing, UV-blocking sunglasses</li><li>Avoid sunburn, especially in childhood — each blistering sunburn doubles melanoma risk</li><li>Do <em>not</em> use commercial tanning beds</li><li>Maintain healthy vitamin D via diet/supplementation rather than unprotected sun exposure</li></ul></div>
-          <p class="topic-cite"><strong>Sources:</strong> IARC Monograph Vol. 100D; WHO Global Solar UV Index; Wehner et al., <em>JAMA Dermatology</em> (2014) — tanning bed meta-analysis.</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="ionizing radiation xray ct scan">
-        <div class="topic-header">
-          <h3 class="topic-name">Ionising Radiation<small>X-rays, CT scans, gamma, radon</small></h3>
-          <span class="iarc g1">IARC Group 1</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>What it is</h5><p>High-energy radiation that breaks DNA strands. Doses are measured in millisieverts (mSv). Background exposure ≈3 mSv/year. A chest X-ray ≈0.1 mSv; abdominal CT ≈10 mSv; cardiac PET-CT ≈25 mSv.</p></div>
-          <div class="topic-block"><h5>Practical guidance</h5><ul><li>Decline non-medically-indicated imaging; ask "will this change management?"</li><li>For children, request dose-reduced paediatric CT protocols</li><li>Track lifetime CT exposure; one CT abdomen ≈ 100 chest X-rays</li><li>Test home for radon (second leading cause of lung cancer worldwide after smoking) — mitigate if &gt;4 pCi/L (US) or &gt;100 Bq/m³ (WHO)</li><li>Dental imaging: bitewings are low-dose; CBCT scans much higher — request only when indicated</li></ul></div>
-          <p class="topic-cite"><strong>Sources:</strong> IARC Monograph Vol. 100D; BEIR VII Report (NAS); Smith-Bindman et al., <em>JAMA Internal Medicine</em> (2009, 2019); WHO Radon Handbook.</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="tobacco smoke smoking cigarette secondhand">
-        <div class="topic-header">
-          <h3 class="topic-name">Tobacco Smoke<small>active and second-hand</small></h3>
-          <span class="iarc g1">IARC Group 1</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>What it is</h5><p>Contains &gt;70 known carcinogens (benzene, formaldehyde, polycyclic aromatic hydrocarbons, tobacco-specific nitrosamines NNN and NNK, polonium-210). Causes ≥16 cancers including lung, larynx, mouth, oesophagus, bladder, kidney, pancreas, cervix, stomach, liver, colorectum, and acute myeloid leukaemia.</p></div>
-          <div class="topic-block"><h5>Practical guidance</h5><p>Quitting at any age extends life. Within 1 year of cessation, cardiovascular risk halves; within 10 years, lung cancer risk halves. Evidence-based aids: nicotine replacement therapy, varenicline, bupropion, behavioural counselling. E-cigarettes are <em>less</em> harmful than combustible tobacco but are not risk-free and should not be initiated by non-smokers.</p></div>
-          <p class="topic-cite"><strong>Sources:</strong> US Surgeon General Reports (2014, 2020); IARC Monograph Vol. 100E; WHO Framework Convention on Tobacco Control.</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="air pollution pm 2.5 particulate diesel">
-        <div class="topic-header">
-          <h3 class="topic-name">Outdoor Air Pollution & PM2.5<small>fine particulate matter, diesel exhaust</small></h3>
-          <span class="iarc g1">IARC Group 1</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>What it is</h5><p>Particulate matter ≤2.5 μm penetrates deep into alveoli and crosses into systemic circulation. Carries combustion-derived PAHs, transition metals, and ultrafine carbon. Lung cancer, cardiovascular disease, stroke, and (per Hill et al., Nature 2023) drives EGFR-mutant lung cancer in non-smokers.</p></div>
-          <div class="topic-block"><h5>Practical guidance</h5><ul><li>Check daily Air Quality Index (AQI); on high-pollution days limit outdoor exertion</li><li>HEPA air filtration indoors; close windows during smog events</li><li>Wear well-fitting FFP2/N95 masks during wildfire smoke or high-AQI days</li><li>Avoid running/cycling next to heavy traffic; choose side streets and parks</li><li>Cooking with biomass/wood stoves indoors carries similar particulate hazards — improve ventilation, switch to cleaner fuels</li></ul></div>
-          <p class="topic-cite"><strong>Sources:</strong> IARC Monograph Vol. 109; WHO Global Air Quality Guidelines (2021); Hill et al., <em>Nature</em> (2023); Pope et al., <em>NEJM</em> (2009).</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="radon home basement gas">
-        <div class="topic-header">
-          <h3 class="topic-name">Radon Gas<small>indoor radioactive gas from soil</small></h3>
-          <span class="iarc g1">IARC Group 1</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>What it is</h5><p>A naturally occurring radioactive gas from uranium decay in soil and rock. Accumulates in basements and poorly ventilated lower floors. Second leading cause of lung cancer globally; first cause among non-smokers in many countries.</p></div>
-          <div class="topic-block"><h5>Practical guidance</h5><p>Buy a charcoal short-term test kit (or alpha-track long-term, 3–12 months). WHO reference level: 100 Bq/m³. US EPA action level: 4 pCi/L (148 Bq/m³). Mitigation by sub-slab depressurisation is highly effective and typically costs $800–$2,500.</p></div>
-          <p class="topic-cite"><strong>Sources:</strong> WHO Handbook on Indoor Radon (2009); US EPA Citizen's Guide to Radon; IARC Monograph Vol. 100D.</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="asbestos insulation construction">
-        <div class="topic-header">
-          <h3 class="topic-name">Asbestos<small>all six fibre types</small></h3>
-          <span class="iarc g1">IARC Group 1</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>What it is</h5><p>Naturally occurring silicate fibres. Causes mesothelioma, lung, larynx, and ovarian cancer. Banned in &gt;60 countries; chrysotile asbestos still imported into the US until EPA's 2024 ban (with phase-out periods).</p></div>
-          <div class="topic-block"><h5>Where it may be encountered</h5><ul><li>Old building insulation, vermiculite attic insulation</li><li>Vinyl floor tiles, popcorn ceilings, roof shingles (pre-1980s buildings)</li><li>Brake linings, gaskets (industrial)</li><li>Talc-containing products historically contaminated with asbestos</li></ul></div>
-          <p class="topic-cite"><strong>Sources:</strong> IARC Monograph Vol. 100C; US EPA chrysotile asbestos rule (2024); WHO factsheet on asbestos.</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="pfas forever chemicals">
-        <div class="topic-header">
-          <h3 class="topic-name">PFAS — "Forever Chemicals"<small>per- and polyfluoroalkyl substances</small></h3>
-          <span class="iarc g1">PFOA: IARC Group 1 (2023); PFOS: 2B</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>What they are</h5><p>Synthetic chemicals with carbon-fluorine bonds that persist for decades in environment and body. In 2023 IARC upgraded PFOA to Group 1 ("carcinogenic to humans") based on sufficient mechanistic evidence and limited human data for kidney cancer and testicular cancer.</p></div>
-          <div class="topic-block"><h5>Where exposure happens</h5><ul><li>Non-stick cookware (older Teflon; new versions are PTFE-coated)</li><li>Stain-resistant carpets, fabrics ("Scotchgard"-type)</li><li>Waterproof clothing, outdoor gear</li><li>Grease-resistant fast-food wrappers, pizza boxes, microwave popcorn bags</li><li>Some cosmetics, dental floss</li><li>Firefighting foam (AFFF), contaminated drinking water near military bases/airports</li></ul></div>
-          <div class="topic-block"><h5>Label aliases / clues</h5><p>"PTFE," "PFOA," "PFOS," "GenX," "C8," "fluoro-" prefix in ingredients, "perfluoro-" or "polyfluoro-" prefixes. EPA set enforceable drinking water limits for 6 PFAS in April 2024.</p></div>
-          <p class="topic-cite"><strong>Sources:</strong> IARC Monograph Vol. 135 (2023); US EPA PFAS National Primary Drinking Water Regulation (April 2024); Steenland & Winquist, <em>Environmental Research</em> (2021).</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="bpa bisphenol plastic">
-        <div class="topic-header">
-          <h3 class="topic-name">Bisphenol A & Analogues<small>BPA, BPS, BPF</small></h3>
-          <span class="iarc lifestyle">Endocrine disruptor</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>What it is</h5><p>Used in polycarbonate plastics and epoxy can linings. Acts as a weak oestrogen mimic; EFSA's 2023 re-assessment dramatically lowered the tolerable daily intake (TDI) ~20,000-fold based on immune-system findings.</p></div>
-          <div class="topic-block"><h5>Where exposure happens</h5><ul><li>Linings of metal food cans, beverage cans</li><li>Thermal paper receipts (cashier handling)</li><li>Polycarbonate water bottles, reusable cups (marked recycling #7)</li><li>Dental sealants and some composites</li><li>"BPA-free" replacements (BPS, BPF) may have similar endocrine activity</li></ul></div>
-          <div class="topic-block"><h5>Reduce exposure</h5><p>Choose glass, stainless steel, or BPA-free containers. Avoid microwaving food in plastic. Wash hands after handling receipts. Eat fresh/frozen rather than canned where practical.</p></div>
-          <p class="topic-cite"><strong>Sources:</strong> EFSA Scientific Opinion on BPA (April 2023); FDA BPA assessment.</p>
-        </div>
-      </article>
-
-    </div>
-  </div>
-
-  <!-- =========== PANEL: LIFESTYLE EXPOSURES =========== -->
-  <div class="cat-panel" data-panel="lifestyle-risk" id="lifestyle">
-    <div class="topic-grid">
-
-      <article class="topic" data-name="obesity body weight bmi adiposity">
-        <div class="topic-header">
-          <h3 class="topic-name">Excess Adiposity (Obesity)<small>≥13 cancers causally linked</small></h3>
-          <span class="iarc g1">IARC: sufficient evidence — Group 1 risk factor</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>Mechanism</h5><p>Chronic low-grade inflammation, insulin resistance with elevated insulin/IGF-1, altered sex-hormone levels (especially post-menopausal oestrogens from adipose aromatase), adipokine dysregulation.</p></div>
-          <div class="topic-block"><h5>Cancers causally linked (IARC, 2016)</h5><ul><li>Oesophageal adenocarcinoma</li><li>Gastric cardia, colon, rectum, liver, gallbladder, pancreas</li><li>Post-menopausal breast, endometrium, ovary</li><li>Kidney (renal cell)</li><li>Meningioma, thyroid, multiple myeloma</li></ul></div>
-          <div class="topic-block"><h5>Healthy targets</h5><p>BMI 18.5–24.9; waist circumference &lt;94 cm (men) / &lt;80 cm (women) — ethnic-specific cut-offs lower for South Asian populations.</p></div>
-          <p class="topic-cite"><strong>Sources:</strong> Lauby-Secretan et al., <em>NEJM</em> (2016); IARC Working Group on Body Fatness; WCRF/AICR Third Expert Report (2018).</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="physical inactivity sedentary sitting">
-        <div class="topic-header">
-          <h3 class="topic-name">Physical Inactivity & Sedentary Behaviour<small>independent risk factors</small></h3>
-          <span class="iarc lifestyle">Strong evidence</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>Mechanism</h5><p>Inactivity drives weight gain but also independently raises insulin resistance, inflammation, and cancer risk via altered immune surveillance. Prolonged sitting raises risk even in people who meet exercise guidelines.</p></div>
-          <div class="topic-block"><h5>Cancers reduced by physical activity</h5><ul><li>Colon, breast (post-menopausal), endometrium — strong evidence</li><li>Bladder, oesophagus, kidney, stomach, lung — moderate</li></ul></div>
-          <div class="topic-block"><h5>Targets (WHO 2020)</h5><p>150–300 min/week moderate <em>or</em> 75–150 min/week vigorous aerobic activity, plus muscle-strengthening on ≥2 days. Break up sitting every 30–60 min with light movement.</p></div>
-          <p class="topic-cite"><strong>Sources:</strong> WHO Guidelines on Physical Activity and Sedentary Behaviour (2020); Moore et al., <em>JAMA Internal Medicine</em> (2016) — 1.4 million person cohort.</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="poor sleep insomnia shift work">
-        <div class="topic-header">
-          <h3 class="topic-name">Sleep Deprivation & Shift Work<small>circadian disruption</small></h3>
-          <span class="iarc g2a">Night shift work: IARC Group 2A</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>Mechanism</h5><p>Circadian misalignment suppresses nocturnal melatonin (which has anti-oxidant and anti-mitogenic effects), disrupts cortisol rhythm, impairs DNA repair, and promotes insulin resistance.</p></div>
-          <div class="topic-block"><h5>Linked outcomes</h5><p>Breast and prostate cancer (shift workers); type 2 diabetes; cardiovascular disease; obesity; dementia (β-amyloid clearance occurs preferentially during sleep).</p></div>
-          <div class="topic-block"><h5>Targets</h5><p>7–9 h sleep for adults. Consistent bedtime/wake schedule. Dark, cool (~18°C) bedroom. Limit blue-light exposure 1–2 h before bed. Avoid caffeine within 8 h of sleep, alcohol within 3 h.</p></div>
-          <p class="topic-cite"><strong>Sources:</strong> IARC Monograph Vol. 124 (2020) — Night Shift Work; Walker, <em>Why We Sleep</em>; NIH Sleep Disorders Research.</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="chronic stress cortisol mental health">
-        <div class="topic-header">
-          <h3 class="topic-name">Chronic Psychological Stress<small>HPA-axis dysregulation</small></h3>
-          <span class="iarc lifestyle">Moderate evidence</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>Mechanism</h5><p>Chronic stress sustains cortisol and catecholamines, suppressing cell-mediated immunity (NK and T-cell function), promoting inflammation, and shifting behavioural choices toward smoking, alcohol, sedentary habits, and emotional eating.</p></div>
-          <div class="topic-block"><h5>Outcomes</h5><p>Direct causal evidence for cancer initiation is limited, but strong evidence for cardiovascular disease, hypertension, depression, anxiety, metabolic syndrome, and acceleration of disease progression in existing cancer.</p></div>
-          <div class="topic-block"><h5>Evidence-based stress mitigation</h5><ul><li>Mindfulness-based stress reduction (MBSR): 8-week programme, ~20 min/day</li><li>Cognitive-behavioural therapy</li><li>Aerobic exercise (as effective as SSRIs for mild-moderate depression)</li><li>Social connection — loneliness raises mortality equivalent to ~15 cigarettes/day</li><li>Nature exposure: 120 min/week associated with improved wellbeing</li></ul></div>
-          <p class="topic-cite"><strong>Sources:</strong> Cohen et al., <em>JAMA</em> (2007); McEwen, <em>Physiological Reviews</em> (2007); White et al., <em>Scientific Reports</em> (2019).</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="hpv hepatitis hbv hcv h pylori">
-        <div class="topic-header">
-          <h3 class="topic-name">Chronic Infections<small>HPV, HBV, HCV, H. pylori, EBV</small></h3>
-          <span class="iarc g1">IARC Group 1</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>What it is</h5><p>Infections account for ~13% of global cancers. Key drivers: human papillomavirus (HPV) → cervical, anal, oropharyngeal cancers; hepatitis B and C → liver cancer; <em>Helicobacter pylori</em> → gastric cancer & MALT lymphoma; Epstein-Barr virus → nasopharyngeal & some lymphomas; HIV → Kaposi sarcoma & lymphomas.</p></div>
-          <div class="topic-block"><h5>Prevention</h5><ul><li>HPV vaccine (recommended ages 9–26, catch-up to 45) — prevents ~90% of cervical cancers</li><li>Hepatitis B vaccine (universal infant + at-risk adults)</li><li>HCV: now curable with direct-acting antivirals; test once between 18–79 years</li><li><em>H. pylori</em>: test-and-treat in high-risk populations or with relevant symptoms</li><li>Safe sexual practices; do not share injection equipment</li></ul></div>
-          <p class="topic-cite"><strong>Sources:</strong> IARC Monograph Vol. 100B; de Martel et al., <em>Lancet Global Health</em> (2020).</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="oral health periodontal gum disease">
-        <div class="topic-header">
-          <h3 class="topic-name">Poor Oral Health<small>periodontal disease & oral microbiome</small></h3>
-          <span class="iarc lifestyle">Emerging evidence</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>Mechanism</h5><p>Chronic gingival inflammation, <em>Porphyromonas gingivalis</em> and <em>Fusobacterium nucleatum</em>, systemic inflammatory burden. <em>F. nucleatum</em> has been detected in colorectal tumours.</p></div>
-          <div class="topic-block"><h5>Linked outcomes</h5><p>Cardiovascular disease, pancreatic cancer, oesophageal cancer, colorectal cancer, adverse pregnancy outcomes.</p></div>
-          <div class="topic-block"><h5>Practical</h5><p>Brush twice daily with fluoride toothpaste, daily interdental cleaning, dental check-ups every 6–12 months, treat periodontitis early.</p></div>
-          <p class="topic-cite"><strong>Sources:</strong> Michaud et al., <em>JNCI</em> (2018); Bullman et al., <em>Science</em> (2017).</p>
-        </div>
-      </article>
-
-    </div>
-  </div>
-
-  <!-- =========== PANEL: OCCUPATIONAL =========== -->
-  <div class="cat-panel" data-panel="occupational">
-    <div class="topic-grid">
-
-      <article class="topic" data-name="benzene gasoline petroleum">
-        <div class="topic-header">
-          <h3 class="topic-name">Benzene<small>petrochemical solvent</small></h3>
-          <span class="iarc g1">IARC Group 1</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>Where exposure happens</h5><ul><li>Petrol/gasoline (refuelling vapours)</li><li>Vehicle exhaust, cigarette smoke (a major source for smokers)</li><li>Some paints, glues, varnishes, paint strippers</li><li>Plastics, rubber, dye industries</li><li>Recent recalls: some sunscreens, dry shampoos (manufacturing contamination)</li></ul></div>
-          <div class="topic-block"><h5>Outcomes</h5><p>Acute myeloid leukaemia; myelodysplastic syndromes; possibly non-Hodgkin lymphoma.</p></div>
-          <p class="topic-cite"><strong>Source:</strong> IARC Monograph Vol. 120; OSHA permissible exposure limit 1 ppm.</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="formaldehyde wood furniture">
-        <div class="topic-header">
-          <h3 class="topic-name">Formaldehyde<small>resins, embalming, off-gassing</small></h3>
-          <span class="iarc g1">IARC Group 1</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>Where exposure happens</h5><ul><li>Pressed-wood products: particleboard, MDF, plywood — especially urea-formaldehyde resins in new furniture and cabinetry</li><li>Some hair-straightening ("Brazilian blowout") treatments</li><li>Some nail polishes and cosmetics</li><li>Wrinkle-resistant fabrics</li><li>Embalming, pathology labs, anatomy education</li></ul></div>
-          <div class="topic-block"><h5>Outcomes</h5><p>Nasopharyngeal cancer; leukaemia (especially myeloid); possibly sinonasal cancer.</p></div>
-          <div class="topic-block"><h5>Reduce exposure</h5><p>Ventilate new furniture for weeks before heavy use; choose CARB Phase 2 / TSCA Title VI compliant or formaldehyde-free certified wood products; avoid formaldehyde-containing keratin treatments.</p></div>
-          <p class="topic-cite"><strong>Sources:</strong> IARC Monograph Vol. 100F; US NTP Report on Carcinogens.</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="diesel exhaust truck mechanic">
-        <div class="topic-header">
-          <h3 class="topic-name">Diesel Engine Exhaust<small>occupational and ambient</small></h3>
-          <span class="iarc g1">IARC Group 1</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>Who is exposed</h5><p>Truck and bus drivers, mechanics, miners (especially underground), heavy-equipment operators, dock workers, traffic police, urban dwellers near major roads.</p></div>
-          <div class="topic-block"><h5>Outcomes</h5><p>Lung cancer; suggested association with bladder cancer.</p></div>
-          <p class="topic-cite"><strong>Source:</strong> IARC Monograph Vol. 105 (2014); Silverman et al., <em>JNCI</em> (2012) — Diesel Exhaust in Miners Study.</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="glyphosate pesticide herbicide roundup">
-        <div class="topic-header">
-          <h3 class="topic-name">Glyphosate<small>broad-spectrum herbicide ("Roundup")</small></h3>
-          <span class="iarc g2a">IARC Group 2A (contested)</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>What it is</h5><p>The most-used herbicide globally. IARC classified it Group 2A ("probably carcinogenic to humans") in 2015 based on limited human evidence for non-Hodgkin lymphoma and sufficient animal evidence. EPA and EFSA have reached different conclusions; the dispute remains contested.</p></div>
-          <div class="topic-block"><h5>Where exposure happens</h5><ul><li>Agricultural application (occupational)</li><li>Residential lawn/garden use</li><li>Residues in oats, wheat, legumes used as "desiccation" pre-harvest</li><li>Drinking water near treated fields</li></ul></div>
-          <div class="topic-block"><h5>Reduce exposure</h5><p>If using, wear gloves, long sleeves, eye protection; avoid spraying in windy conditions; choose organic or "no glyphosate desiccation" oats and legumes; wash and peel produce.</p></div>
-          <p class="topic-cite"><strong>Sources:</strong> IARC Monograph Vol. 112 (2015); Zhang et al., <em>Mutation Research</em> (2019) — meta-analysis of NHL risk.</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="silica dust construction sandblasting">
-        <div class="topic-header">
-          <h3 class="topic-name">Crystalline Silica Dust<small>quartz, cristobalite</small></h3>
-          <span class="iarc g1">IARC Group 1</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>Who is exposed</h5><p>Construction (cutting concrete, stone, brick), mining, quarrying, foundry workers, sandblasters, dental laboratory technicians, engineered-stone countertop fabrication (a recent epidemic of accelerated silicosis).</p></div>
-          <div class="topic-block"><h5>Outcomes</h5><p>Lung cancer; silicosis; chronic obstructive pulmonary disease; autoimmune diseases.</p></div>
-          <p class="topic-cite"><strong>Source:</strong> IARC Monograph Vol. 100C; OSHA Silica Standard (2016).</p>
-        </div>
-      </article>
-
-      <article class="topic" data-name="hair dye salon stylist">
-        <div class="topic-header">
-          <h3 class="topic-name">Occupational Hairdressing<small>chronic exposure to dyes & solvents</small></h3>
-          <span class="iarc g2a">IARC Group 2A (as hairdresser/barber)</span>
-        </div>
-        <div class="topic-body">
-          <div class="topic-block"><h5>What it is</h5><p>Occupational exposure to permanent dye precursors (aromatic amines), persulfate bleach, formaldehyde-releasing straighteners. <em>Personal</em> use of hair dyes is Group 3 — IARC found inadequate evidence of cancer risk from consumer use.</p></div>
-          <div class="topic-block"><h5>Outcomes (occupational)</h5><p>Bladder cancer; possibly breast and ovarian (recent NIH Sister Study, 2019).</p></div>
-          <p class="topic-cite"><strong>Source:</strong> IARC Monograph Vol. 99; Eberle et al., <em>International Journal of Cancer</em> (2020).</p>
-        </div>
-      </article>
-
-    </div>
-  </div>
-
-</section>
-
-<!-- ============== LIFESTYLE PROPOSALS ============== -->
-<section id="proposals">
-  <div class="section-head">
-    <div class="section-num">PART TWO<span>02</span></div>
-    <div>
-      <h2 class="section-title">Evidence-Based <em>Proposals</em> for a Lower-Risk Life</h2>
-      <p class="section-desc">These are the dietary, behavioural, and environmental practices supported by the strongest peer-reviewed evidence for reducing cancer and chronic-disease risk. Each is mapped to its primary evidence source.</p>
-    </div>
-  </div>
-
-  <div class="proposals" id="proposalsGrid">
-    <!-- Proposals injected by JS for cleanliness -->
-  </div>
-</section>
-
-<!-- ============== DAILY TRACKER ============== -->
-<section id="tracker">
-  <div class="section-head">
-    <div class="section-num">PART THREE<span>03</span></div>
-    <div>
-      <h2 class="section-title">Daily <em>Habit Tracker</em></h2>
-      <p class="section-desc">A free account lets you save your daily check-ins, view your streaks, and print a weekly summary for your records or your physician. No card. No upsell.</p>
-    </div>
-  </div>
-
-  <div class="tracker-shell">
-    <div class="tracker-head">
-      <div>
-        <h3 id="trackerGreeting">Your daily check-in</h3>
-        <div class="today" id="trackerDate"></div>
-      </div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="btn btn-sm" id="resetDay">Reset day</button>
-        <button class="btn btn-sm" id="printSummary">Print weekly summary</button>
-        <button class="btn btn-sm btn-accent" id="saveProgress">Save progress</button>
-      </div>
-    </div>
-    <div class="tracker-body">
-      <div class="tracker-list" id="habitList"></div>
-      <div class="tracker-stats">
-        <div class="progress-ring">
-          <svg width="140" height="140">
-            <circle cx="70" cy="70" r="60" fill="none" stroke="var(--paper-3)" stroke-width="12"/>
-            <circle id="ringProgress" cx="70" cy="70" r="60" fill="none" stroke="var(--good)" stroke-width="12" stroke-linecap="round" stroke-dasharray="377" stroke-dashoffset="377"/>
-          </svg>
-          <div class="pct" id="pctText">0%</div>
-        </div>
-        <div class="ts-row"><span class="l">Today's score</span><span class="v" id="todayScore">0 / 0</span></div>
-        <div class="ts-row"><span class="l">Current streak</span><span class="v" id="streakVal">0 d</span></div>
-        <div class="ts-row"><span class="l">7-day average</span><span class="v" id="weekAvg">—</span></div>
-        <div class="ts-row"><span class="l">Account</span><span class="v" id="accountState" style="font-size:14px;font-family:inherit;font-weight:500">Guest</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============== EVIDENCE ============== -->
-<section id="evidence">
-  <div class="section-head">
-    <div class="section-num">PART FOUR<span>04</span></div>
-    <div>
-      <h2 class="section-title">Sources & <em>Evidence Base</em></h2>
-      <p class="section-desc">Every claim on this platform is traceable to one or more of the following peer-reviewed or expert-consensus sources. We update content as new IARC, WHO, and major journal evidence is released.</p>
-    </div>
-  </div>
-  <div class="twocol">
-    <div class="info-card">
-      <h4>Primary classification & guideline bodies</h4>
-      <ul>
-        <li><strong>IARC Monographs on the Identification of Carcinogenic Hazards to Humans</strong> — Vols. 1–135 (lyon.iarc.fr)</li>
-        <li><strong>World Health Organization (WHO)</strong> — Cancer Prevention; Noncommunicable Diseases Factsheets; Global Air Quality Guidelines; sodium, sugar, trans-fat guidance.</li>
-        <li><strong>World Cancer Research Fund / American Institute for Cancer Research (WCRF/AICR)</strong> — Continuous Update Project; <em>Diet, Nutrition, Physical Activity and Cancer: a Global Perspective</em> (Third Expert Report, 2018).</li>
-        <li><strong>US National Toxicology Program (NTP)</strong> — Report on Carcinogens, 15th edition.</li>
-        <li><strong>European Food Safety Authority (EFSA)</strong> — Scientific opinions on E171, BPA, acrylamide, additives.</li>
-        <li><strong>US Surgeon General Reports</strong> — Tobacco, alcohol, loneliness, social isolation.</li>
-      </ul>
-    </div>
-    <div class="info-card">
-      <h4>Key peer-reviewed studies referenced</h4>
-      <ul>
-        <li>Bouvard V. et al. Carcinogenicity of consumption of red and processed meat. <em>Lancet Oncology</em>. 2015.</li>
-        <li>Rumgay H. et al. Global burden of cancer attributable to alcohol consumption. <em>Lancet Oncology</em>. 2021.</li>
-        <li>Fiolet T. et al. Consumption of ultra-processed foods and cancer risk. <em>BMJ</em>. 2018.</li>
-        <li>Lauby-Secretan B. et al. Body fatness and cancer — IARC viewpoint. <em>NEJM</em>. 2016.</li>
-        <li>Hill W. et al. Lung adenocarcinoma promotion by air pollutants. <em>Nature</em>. 2023.</li>
-        <li>Chassaing B. et al. Dietary emulsifiers impact the mouse gut microbiota. <em>Nature</em>. 2015.</li>
-        <li>Sellem L. et al. Food additive emulsifiers and risk of cardiovascular and cancer outcomes. <em>BMJ</em>. 2023/2024.</li>
-        <li>Moore S. et al. Leisure-time physical activity and 26 cancer sites. <em>JAMA Internal Medicine</em>. 2016.</li>
-        <li>Llaha F. et al. Consumption of sugar-sweetened and artificially sweetened beverages and risk of cancers. <em>Nutrients</em>. 2021.</li>
-        <li>de Martel C. et al. Global burden of cancer attributable to infections in 2018. <em>Lancet Global Health</em>. 2020.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="disclaimer" role="note" aria-label="Medical disclaimer">
-    <strong>Important Disclaimer</strong>
-    The Team21 Health Platform is provided strictly for educational and informational purposes. It summarises peer-reviewed evidence and authoritative public-health guidance, but it is <em>not</em> a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider with questions about your individual health, before changing your diet, beginning an exercise programme, taking or stopping any medication or supplement, or acting on any information presented here. Reliance on any content on this platform is solely at your own risk. No physician-patient relationship is created by use of this platform. In a medical emergency, contact your local emergency services immediately.
-    <br><br>
-    <strong style="font-size:13px;color:#5b4a1c;font-family:inherit;letter-spacing:normal;text-transform:none">© Innocent Forteh.</strong> All editorial content, structure, and the Team21 Health Platform name are the intellectual property of Innocent Forteh and may not be reproduced without written permission.
-  </div>
-</section>
-
-<!-- ============== FOOTER ============== -->
-<footer>
-  <div class="foot-inner">
-    <div class="foot-brand">
-      <div class="brand-name" style="font-family:'Fraunces',serif">Team21 Health Platform</div>
-      <p>An evidence-based preventive-health resource mapping the dietary, environmental and behavioural factors implicated in cancer and chronic disease — drawn from IARC, WHO, NIH, AICR and the leading medical journals.</p>
-    </div>
-    <div class="foot-col">
-      <h5>Sections</h5>
-      <a href="#carcinogens">Carcinogens</a>
-      <a href="#additives">Food additives</a>
-      <a href="#lifestyle">Lifestyle</a>
-      <a href="#proposals">Proposals</a>
-      <a href="#tracker">Tracker</a>
-    </div>
-    <div class="foot-col">
-      <h5>Account</h5>
-      <a href="#" id="footerLogin">Sign in</a>
-      <a href="#" id="footerRegister">Create account</a>
-      <a href="#" id="footerPrint">Print weekly summary</a>
-    </div>
-    <div class="foot-col">
-      <h5>Editorial</h5>
-      <a href="#evidence">Sources</a>
-      <a href="#evidence">Disclaimer</a>
-      <span style="display:block;color:#a8b8af;font-size:13px;padding:4px 0">Editor — Innocent Forteh</span>
-    </div>
-  </div>
-  <div class="foot-bottom">
-    <div class="copy">© Innocent Forteh · Team21 Health Platform · All rights reserved.</div>
-    <div>For educational use only · Not medical advice.</div>
-  </div>
-</footer>
-
-<!-- ============== AUTH MODAL ============== -->
-<div class="modal-backdrop" id="authModal" role="dialog" aria-modal="true">
-  <div class="modal">
-    <button class="modal-close" id="authClose" aria-label="Close">×</button>
-    <h3 id="authTitle">Welcome back</h3>
-    <p class="sub" id="authSub">Sign in to save your tracker progress.</p>
-    <div class="field" id="nameField" style="display:none">
-      <label for="authName">Full name</label>
-      <input type="text" id="authName" autocomplete="name" />
-    </div>
-    <div class="field">
-      <label for="authEmail">Email</label>
-      <input type="email" id="authEmail" autocomplete="email" />
-    </div>
-    <div class="field">
-      <label for="authPass">Password</label>
-      <input type="password" id="authPass" autocomplete="current-password" />
-    </div>
-    <div class="auth-msg" id="authMsg"></div>
-    <button class="btn btn-primary" id="authSubmit" style="width:100%;margin-top:8px;padding:12px">Sign in</button>
-    <div class="auth-switch">
-      <span id="authSwitchText">New here? </span><a id="authSwitchLink">Create an account</a>
-    </div>
-    <p style="margin-top:16px;font-size:11px;color:var(--mute);line-height:1.5;text-align:center">Your tracker data is stored privately in your Team21 account. We never share or sell your data.</p>
+  <div class="stat">
+    <div class="num">~40%</div>
+    <div class="lbl">of new cancer cases linked to modifiable risk</div>
+    <div class="src">— American Cancer Society, 2024</div>
   </div>
 </div>
 
-<script>
-/* ====================== STATE ====================== */
-const STORAGE = (window.storage && typeof window.storage.set === 'function') ? window.storage : null;
-let currentUser = null; // { email, name }
-const todayKey = () => new Date().toISOString().slice(0,10);
+<!-- ===== Section overview ===== -->
+<section class="overview">
+  <h2>Navigate by <em>what concerns you</em>.</h2>
+  <p>The platform is organised so you can move from understanding a hazard, to seeing how to act on it, to tracking that action day-by-day — and asking questions when something isn't clear.</p>
+  <div class="sect-grid">
+    <a class="sect-card" href="carcinogens.html">
+      <span class="num">01 / KNOW</span>
+      <h3>The Carcinogen Library</h3>
+      <p>Detailed entries for every major dietary, environmental, occupational and lifestyle carcinogen, with IARC classification, common sources, hidden label aliases and the evidence behind the risk.</p>
+      <span class="arrow">Open library →</span>
+    </a>
+    <a class="sect-card" href="additives.html">
+      <span class="num">02 / DECODE</span>
+      <h3>Food Additives Decoded</h3>
+      <p>Carrageenan, aspartame, nitrites, BHA/BHT, titanium dioxide, dyes, MSG aliases, emulsifiers, potassium bromate — what they are, every name they hide behind, and where they appear.</p>
+      <span class="arrow">Decode labels →</span>
+    </a>
+    <a class="sect-card" href="lifestyle.html">
+      <span class="num">03 / UNDERSTAND</span>
+      <h3>Lifestyle & Environment</h3>
+      <p>Obesity, sedentary behaviour, sleep loss, chronic stress, infections, oral health, sun, air pollution and radon — the everyday exposures and habits with the strongest evidence behind them.</p>
+      <span class="arrow">Read the evidence →</span>
+    </a>
+    <a class="sect-card" href="proposals.html">
+      <span class="num">04 / ACT</span>
+      <h3>24 Evidence-Based Proposals</h3>
+      <p>Practical, peer-reviewed practices — from Mediterranean diet patterns to radon testing — each mapped to its primary supporting study.</p>
+      <span class="arrow">See proposals →</span>
+    </a>
+    <a class="sect-card" href="tracker.html">
+      <span class="num">05 / TRACK</span>
+      <h3>Daily Habit Tracker</h3>
+      <p>Sign in to check off 16 daily habits, watch your weekly streak, and print a clean summary for your records or your physician.</p>
+      <span class="arrow">Start tracking →</span>
+    </a>
+    <a class="sect-card" href="community.html">
+      <span class="num">06 / ASK</span>
+      <h3>Community Q&amp;A</h3>
+      <p>Submit your own questions to the community, leave notes on entries, and read what others are asking about specific exposures.</p>
+      <span class="arrow">Join the conversation →</span>
+    </a>
+  </div>
+</section>
 
-/* ====================== CATEGORY TABS ====================== */
-document.querySelectorAll('.cat-tab').forEach(tab=>{
-  tab.addEventListener('click',()=>{
-    document.querySelectorAll('.cat-tab').forEach(t=>t.classList.remove('active'));
-    document.querySelectorAll('.cat-panel').forEach(p=>p.classList.remove('active'));
-    tab.classList.add('active');
-    document.querySelector(`.cat-panel[data-panel="${tab.dataset.cat}"]`).classList.add('active');
-  });
-});
+<div class="pull">
+  Prevention is not the avoidance of life. It is the construction of an environment, a routine, and a mindset in which the cellular machinery of the body is given its best possible chance to keep working — quietly, reliably, for as long as we live.
+  <cite>— Editorial, Team21 Health Platform</cite>
+</div>
 
-/* ====================== SEARCH ====================== */
-document.getElementById('topicSearch').addEventListener('input', e=>{
-  const q = e.target.value.toLowerCase().trim();
-  // open all panels temporarily when searching
-  if(q){
-    document.querySelectorAll('.cat-panel').forEach(p=>p.classList.add('active'));
-  } else {
-    document.querySelectorAll('.cat-panel').forEach(p=>p.classList.remove('active'));
-    document.querySelector('.cat-panel[data-panel="diet"]').classList.add('active');
-  }
-  document.querySelectorAll('.topic').forEach(t=>{
-    const hay = (t.dataset.name + ' ' + t.textContent).toLowerCase();
-    t.style.display = (!q || hay.includes(q)) ? '' : 'none';
-  });
-});
+<section class="features">
+  <div class="feature">
+    <div class="lab">01 / FREE ACCOUNT</div>
+    <h4>Save anything, anywhere</h4>
+    <p>Bookmarks, notes and tracker data persist across devices once you sign in. No card. No upsell.</p>
+  </div>
+  <div class="feature">
+    <div class="lab">02 / INTERACTIVE</div>
+    <h4>Notes on every entry</h4>
+    <p>Add private notes against any topic. Ask the community a question directly from the source entry.</p>
+  </div>
+  <div class="feature">
+    <div class="lab">03 / PRINTABLE</div>
+    <h4>Take it to your doctor</h4>
+    <p>A one-click weekly summary prints a clinical-grade record of your habits for any clinical conversation.</p>
+  </div>
+  <div class="feature">
+    <div class="lab">04 / OPEN EVIDENCE</div>
+    <h4>Every claim, sourced</h4>
+    <p>Each entry is footed with its IARC monograph, WHO guideline or peer-reviewed citation — verifiable, not vibes.</p>
+  </div>
+</section>
 
-/* ====================== PROPOSALS DATA ====================== */
-const proposals = [
-  {ic:'🍅',h:'Adopt a Mediterranean-style dietary pattern',p:'Emphasise vegetables, fruits, legumes, whole grains, nuts, olive oil and fish; minimise red meat, processed meat and ultra-processed foods. The PREDIMED randomised trial showed a ~30% reduction in major cardiovascular events.',ev:'Estruch et al., NEJM (2018); WCRF/AICR Third Expert Report'},
-  {ic:'🥦',h:'Eat ≥400 g of vegetables & fruit daily',p:'Five servings minimum. Diverse colours provide carotenoids, polyphenols, glucosinolates and fibre that support DNA repair and a healthy gut microbiome.',ev:'WHO Healthy Diet factsheet; Aune et al., IJE (2017)'},
-  {ic:'🥩',h:'Limit red meat to <500 g cooked weekly',p:'And eliminate or strongly reduce processed meats (bacon, sausage, deli meats). Replace with legumes, poultry, fish, tofu.',ev:'WCRF/AICR (2018); IARC Vol. 114'},
-  {ic:'🍷',h:'Eliminate or minimise alcohol',p:'WHO 2023: no safe level for cancer risk. If you drink, follow national low-risk guidelines and have several alcohol-free days each week.',ev:'WHO Europe (2023); IARC Vol. 100E'},
-  {ic:'🚭',h:'Do not smoke; avoid second-hand smoke',p:'Quitting at any age extends life. Use evidence-based aids: NRT, varenicline, bupropion, behavioural counselling. Avoid e-cigarette initiation if you have never smoked.',ev:'US Surgeon General (2020); WHO FCTC'},
-  {ic:'🏃',h:'Move 150–300 minutes weekly',p:'Moderate aerobic activity plus muscle-strengthening on ≥2 days. Break up sedentary time every 30–60 minutes with brief movement.',ev:'WHO Physical Activity Guidelines (2020)'},
-  {ic:'⚖️',h:'Maintain healthy body composition',p:'BMI 18.5–24.9; waist <94 cm (men) / <80 cm (women). Excess adiposity is causally linked to ≥13 cancers.',ev:'Lauby-Secretan et al., NEJM (2016)'},
-  {ic:'😴',h:'Protect 7–9 hours of sleep nightly',p:'Consistent schedule, dark cool bedroom, limit blue light 1–2 h before bed. Shift workers should follow circadian-aware scheduling where possible.',ev:'IARC Vol. 124 (2020); NIH Sleep Research'},
-  {ic:'🧘',h:'Practise daily stress reduction',p:'Mindfulness, CBT-based techniques, journaling, slow breathing (≤6 breaths/min for 5 min). Aim for ≥10 min daily.',ev:'McEwen, Physiol Rev (2007); Goyal et al., JAMA IM (2014)'},
-  {ic:'☀️',h:'Be sun-smart',p:'Seek shade 10 a.m.–4 p.m., SPF 30+ broad-spectrum, hat & sunglasses. Avoid tanning beds entirely. Supplement vitamin D rather than seek unprotected sun.',ev:'IARC Vol. 100D; WHO Solar UV Index'},
-  {ic:'💉',h:'Use evidence-based vaccinations',p:'HPV vaccine (prevents ≈90% of cervical cancers) and hepatitis B vaccine prevent two infection-driven cancers. Annual flu and updated COVID vaccines reduce systemic inflammatory burden.',ev:'IARC Vol. 100B; de Martel et al., Lancet GH (2020)'},
-  {ic:'🦠',h:'Test & treat H. pylori where indicated',p:'In high-risk regions or with chronic dyspepsia/family history of gastric cancer, ask your physician about test-and-treat strategies.',ev:'IARC Vol. 100B; Maastricht VI Consensus'},
-  {ic:'🥤',h:'Eliminate sugar-sweetened beverages',p:'Replace with water, unsweetened tea, sparkling water. Limit fruit juice to ≤150 ml/day. Treat diet drinks as occasional, not staples.',ev:'WHO Sugar Guideline (2015); Malik & Hu, Nat Rev Endocrinol (2022)'},
-  {ic:'🍞',h:'Cut ultra-processed foods (NOVA-4) to <20% of calories',p:'Cook at home using whole or minimally-processed ingredients. Read labels — if you see &gt;5 unfamiliar industrial ingredients, choose another product.',ev:'Fiolet et al., BMJ (2018); Lane et al., BMJ umbrella review (2024)'},
-  {ic:'🧂',h:'Keep salt below 5 g (1 tsp) daily',p:'Most salt comes from processed foods. Use herbs, spices, citrus and vinegars for flavour. Lower-sodium versions of staples (soy sauce, bread, cheese) help.',ev:'WHO Sodium Intake Guidelines (2012)'},
-  {ic:'🔥',h:'Cook at lower temperatures, more often by water',p:'Steam, poach, braise, slow-cook to minimise HCAs, PAHs and acrylamide. Avoid charring meat; marinate first (acids and herbs reduce HCA formation).',ev:'EFSA Acrylamide Opinion (2015); WCRF/AICR'},
-  {ic:'🧴',h:'Reduce plastic food contact',p:'Choose glass or stainless steel. Don\'t microwave food in plastic. Limit canned-food intake. Avoid handling thermal-paper receipts more than necessary.',ev:'EFSA BPA Opinion (2023)'},
-  {ic:'🏠',h:'Test your home for radon',p:'Cheap charcoal kits, then alpha-track if uncertain. Mitigate if >100 Bq/m³ (WHO) or >4 pCi/L (US EPA). Most effective fix: sub-slab depressurisation.',ev:'WHO Handbook on Indoor Radon (2009)'},
-  {ic:'🌳',h:'Reduce air pollution exposure',p:'Monitor AQI; use HEPA filtration indoors; mask outdoors during high-PM days; exercise on quieter streets and in parks rather than next to traffic.',ev:'WHO Air Quality Guidelines (2021); Hill et al., Nature (2023)'},
-  {ic:'🪥',h:'Maintain rigorous oral health',p:'Twice-daily fluoride brushing, daily interdental cleaning, dental cleaning every 6–12 months. Treat periodontitis early.',ev:'Michaud et al., JNCI (2018)'},
-  {ic:'🩺',h:'Attend recommended screenings',p:'Cervical (HPV/Pap), breast (mammography), colorectal (colonoscopy/FIT), lung (low-dose CT in current/former heavy smokers), prostate (after shared decision-making). Schedules per national guidelines.',ev:'USPSTF; ESMO; national screening programmes'},
-  {ic:'☕',h:'Cool hot beverages below 60°C',p:'Tea, coffee and mate consumed scalding-hot raise oesophageal cancer risk. The drinks themselves (especially coffee) are not classified as carcinogenic.',ev:'IARC Vol. 116 (2018)'},
-  {ic:'🥜',h:'Store nuts & grains cool and dry',p:'Discard any with discoloration or musty smell — aflatoxins are potent hepatocarcinogens. Buy fresh from high-turnover suppliers.',ev:'IARC Vol. 100F; Liu & Wu, EHP (2010)'},
-  {ic:'🧴',h:'Choose lower-additive personal care',p:'Avoid hair-straightening treatments containing formaldehyde. Use mineral sunscreens if preferred. Read labels for PFAS in cosmetics and dental floss.',ev:'IARC Vol. 135 (2023) PFOA upgrade'}
-];
-
-const grid = document.getElementById('proposalsGrid');
-proposals.forEach(p=>{
-  const el = document.createElement('div');
-  el.className = 'proposal';
-  el.innerHTML = `<div class="proposal-icon">${p.ic}</div><h4>${p.h}</h4><p>${p.p}</p><div class="ev">${p.ev}</div>`;
-  grid.appendChild(el);
-});
-
-/* ====================== TRACKER ====================== */
-const HABITS = [
-  {id:'veggies',  label:'5+ servings of vegetables & fruit', tag:'Diet',    sub:'≥400 g across the day'},
-  {id:'noredmeat',label:'No red or processed meat today',    tag:'Diet',    sub:'or kept under 70 g'},
-  {id:'wholegrain',label:'Whole grain at every meal',         tag:'Diet',    sub:'instead of refined'},
-  {id:'water',    label:'Hydrated with ≥6 glasses of water',  tag:'Diet',    sub:'replaced any SSB urge'},
-  {id:'noupf',    label:'No ultra-processed food today',      tag:'Diet',    sub:'NOVA-4 avoided'},
-  {id:'noalcohol',label:'No alcohol today',                   tag:'Lifestyle',sub:'or within low-risk guidelines'},
-  {id:'nosmoke',  label:'Tobacco-free day',                   tag:'Lifestyle',sub:'including vapes'},
-  {id:'exercise', label:'≥30 min moderate activity',          tag:'Lifestyle',sub:'brisk walk minimum'},
-  {id:'strength', label:'Some muscle-strengthening movement', tag:'Lifestyle',sub:'2× per week is target'},
-  {id:'sit',      label:'Stood up every 30–60 min',           tag:'Lifestyle',sub:'broke sedentary blocks'},
-  {id:'sun',      label:'Practised sun safety',               tag:'Environment',sub:'shade/SPF/hat as needed'},
-  {id:'sleep',    label:'7–9 hours of sleep last night',      tag:'Lifestyle',sub:'consistent schedule'},
-  {id:'mind',     label:'≥10 min mindfulness / breathing',    tag:'Lifestyle',sub:'stress regulation'},
-  {id:'social',   label:'Meaningful social connection',       tag:'Lifestyle',sub:'voice or in-person'},
-  {id:'oral',     label:'Brushed twice; interdental cleaning',tag:'Lifestyle',sub:'periodontal care'},
-  {id:'temp',     label:'Hot drinks below 60°C',              tag:'Diet',    sub:'avoided scalding tea/coffee'}
-];
-
-const habitList = document.getElementById('habitList');
-HABITS.forEach(h=>{
-  const row = document.createElement('label');
-  row.className = 'habit';
-  row.dataset.id = h.id;
-  row.innerHTML = `
-    <input type="checkbox" data-id="${h.id}">
-    <div class="habit-text">${h.label}<small>${h.sub}</small></div>
-    <span class="habit-tag">${h.tag}</span>`;
-  habitList.appendChild(row);
-});
-
-function setDateLabel(){
-  const d = new Date();
-  document.getElementById('trackerDate').textContent =
-    d.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'}).toUpperCase() + ' · ' + todayKey();
-}
-setDateLabel();
-
-function updateStats(){
-  const boxes = habitList.querySelectorAll('input[type=checkbox]');
-  const done = [...boxes].filter(b=>b.checked).length;
-  const total = boxes.length;
-  document.getElementById('todayScore').textContent = `${done} / ${total}`;
-  const pct = total ? Math.round(done/total*100) : 0;
-  document.getElementById('pctText').textContent = pct + '%';
-  const dash = 2*Math.PI*60;
-  document.getElementById('ringProgress').setAttribute('stroke-dashoffset', dash - (dash*pct/100));
-  boxes.forEach(b=>{
-    b.closest('.habit').classList.toggle('checked', b.checked);
-  });
-}
-
-habitList.addEventListener('change', e=>{
-  if(e.target.type === 'checkbox'){
-    updateStats();
-    persistToday();
-  }
-});
-
-document.getElementById('resetDay').addEventListener('click',()=>{
-  habitList.querySelectorAll('input[type=checkbox]').forEach(b=>b.checked=false);
-  updateStats();
-  persistToday();
-});
-
-/* ===== Persistence ===== */
-async function persistToday(){
-  if(!currentUser || !STORAGE) return;
-  const boxes = habitList.querySelectorAll('input[type=checkbox]');
-  const state = {};
-  boxes.forEach(b=> state[b.dataset.id] = b.checked);
-  const key = `t21:${currentUser.email}:day:${todayKey()}`;
-  try{ await STORAGE.set(key, JSON.stringify({habits:state, ts:Date.now()})); }catch(e){}
-  await refreshStreakAndAvg();
-}
-
-async function loadToday(){
-  if(!currentUser || !STORAGE) return;
-  const key = `t21:${currentUser.email}:day:${todayKey()}`;
-  try{
-    const r = await STORAGE.get(key);
-    if(r && r.value){
-      const data = JSON.parse(r.value);
-      habitList.querySelectorAll('input[type=checkbox]').forEach(b=>{
-        b.checked = !!(data.habits && data.habits[b.dataset.id]);
-      });
-    }
-  }catch(e){}
-  updateStats();
-}
-
-async function refreshStreakAndAvg(){
-  if(!currentUser || !STORAGE){
-    document.getElementById('streakVal').textContent = '0 d';
-    document.getElementById('weekAvg').textContent = '—';
-    return;
-  }
-  // Walk last 14 days
-  const days = [];
-  for(let i=0;i<14;i++){
-    const d = new Date(); d.setDate(d.getDate()-i);
-    days.push(d.toISOString().slice(0,10));
-  }
-  let streak = 0;
-  let weekDone = 0, weekTotal = 0;
-  for(let i=0;i<days.length;i++){
-    const key = `t21:${currentUser.email}:day:${days[i]}`;
-    let entry = null;
-    try{ const r = await STORAGE.get(key); if(r && r.value) entry = JSON.parse(r.value); }catch(e){}
-    const done = entry ? Object.values(entry.habits||{}).filter(v=>v).length : 0;
-    const total = HABITS.length;
-    if(i<7){ weekDone += done; weekTotal += total; }
-    if(i===0){
-      if(done >= Math.ceil(total*0.6)) streak = 1;
-      else streak = 0;
-    } else if(streak === i){
-      if(done >= Math.ceil(total*0.6)) streak++;
-    }
-  }
-  document.getElementById('streakVal').textContent = streak + ' d';
-  document.getElementById('weekAvg').textContent = weekTotal ? Math.round(weekDone/weekTotal*100)+'%' : '—';
-}
-
-document.getElementById('saveProgress').addEventListener('click', async ()=>{
-  if(!currentUser){ openAuth('login'); return; }
-  await persistToday();
-  flash('Saved.', true);
-});
-
-/* ===== Print weekly summary ===== */
-async function printSummary(){
-  if(!currentUser){ openAuth('login'); return; }
-  const days = [];
-  for(let i=6;i>=0;i--){
-    const d = new Date(); d.setDate(d.getDate()-i);
-    days.push(d.toISOString().slice(0,10));
-  }
-  const rows = [];
-  for(const day of days){
-    const key = `t21:${currentUser.email}:day:${day}`;
-    let entry=null;
-    try{ const r = await STORAGE.get(key); if(r && r.value) entry = JSON.parse(r.value); }catch(e){}
-    const habits = entry ? entry.habits : {};
-    rows.push({day, habits});
-  }
-  const w = window.open('','_blank','width=900,height=1100');
-  const habitHeaders = HABITS.map(h=>`<th style="font-size:9px;writing-mode:vertical-rl;transform:rotate(180deg);padding:6px 2px;border-bottom:1px solid #999;white-space:nowrap">${h.label}</th>`).join('');
-  const bodyRows = rows.map(r=>{
-    const total = HABITS.filter(h=>r.habits && r.habits[h.id]).length;
-    const cells = HABITS.map(h=>`<td style="text-align:center;border-bottom:1px solid #ddd;padding:6px">${r.habits && r.habits[h.id] ? '✓' : '·'}</td>`).join('');
-    return `<tr><td style="padding:6px 8px;border-bottom:1px solid #ddd;font-size:12px;white-space:nowrap"><strong>${r.day}</strong></td>${cells}<td style="padding:6px 8px;border-bottom:1px solid #ddd;font-size:12px;text-align:center;font-weight:600">${total}/${HABITS.length}</td></tr>`;
-  }).join('');
-  w.document.write(`<!doctype html><html><head><title>Team21 Weekly Summary — ${currentUser.email}</title>
-  <style>body{font-family:Georgia,serif;color:#111;padding:30px;max-width:900px;margin:0 auto}
-  h1{font-size:24px;margin:0 0 4px;letter-spacing:-.01em} .sub{color:#666;font-size:13px;margin-bottom:18px}
-  table{border-collapse:collapse;width:100%} th{background:#f4efe6;font-weight:600;font-size:11px;text-align:left;padding:6px 8px;border-bottom:1px solid #999}
-  .footer{margin-top:24px;font-size:11px;color:#666;border-top:1px solid #ccc;padding-top:12px}
-  </style></head><body>
-  <h1>Team21 Health Platform — Weekly Habit Summary</h1>
-  <div class="sub">Account: <strong>${currentUser.name||currentUser.email}</strong> · Email: ${currentUser.email} · Generated ${new Date().toLocaleString()}</div>
-  <table><thead><tr><th style="padding:6px 8px">Date</th>${habitHeaders}<th style="padding:6px 8px;text-align:center">Score</th></tr></thead><tbody>${bodyRows}</tbody></table>
-  <div class="footer"><strong>Disclaimer:</strong> This summary is for informational use only and not a substitute for professional medical advice. © Innocent Forteh · Team21 Health Platform.</div>
-  <script>window.onload=()=>window.print()<\/script>
-  </body></html>`);
-  w.document.close();
-}
-document.getElementById('printSummary').addEventListener('click', printSummary);
-document.getElementById('footerPrint').addEventListener('click', (e)=>{e.preventDefault();printSummary()});
-
-/* ====================== AUTH ====================== */
-function openAuth(mode){
-  const m = document.getElementById('authModal');
-  m.classList.add('open');
-  setMode(mode||'login');
-}
-function closeAuth(){ document.getElementById('authModal').classList.remove('open'); document.getElementById('authMsg').classList.remove('show'); }
-function setMode(mode){
-  const isReg = mode==='register';
-  document.getElementById('authTitle').textContent = isReg ? 'Create your account' : 'Welcome back';
-  document.getElementById('authSub').textContent  = isReg ? 'A free account saves your tracker, streaks, and prints weekly summaries.' : 'Sign in to load your tracker and streaks.';
-  document.getElementById('nameField').style.display = isReg ? '' : 'none';
-  document.getElementById('authSubmit').textContent  = isReg ? 'Create account' : 'Sign in';
-  document.getElementById('authSwitchText').textContent = isReg ? 'Already have an account? ' : 'New here? ';
-  document.getElementById('authSwitchLink').textContent  = isReg ? 'Sign in' : 'Create an account';
-  document.getElementById('authSwitchLink').dataset.mode = isReg ? 'login' : 'register';
-}
-document.getElementById('loginBtn').addEventListener('click',()=>openAuth('login'));
-document.getElementById('registerBtn').addEventListener('click',()=>openAuth('register'));
-document.getElementById('footerLogin').addEventListener('click',(e)=>{e.preventDefault();openAuth('login')});
-document.getElementById('footerRegister').addEventListener('click',(e)=>{e.preventDefault();openAuth('register')});
-document.getElementById('authClose').addEventListener('click',closeAuth);
-document.getElementById('authModal').addEventListener('click',e=>{if(e.target.id==='authModal')closeAuth()});
-document.getElementById('authSwitchLink').addEventListener('click',(e)=>{ setMode(e.target.dataset.mode||'register'); });
-
-async function djb2(str){
-  // simple non-crypto hash for password storage. Real apps need server-side bcrypt.
-  let h=5381; for(let i=0;i<str.length;i++) h = ((h<<5)+h) + str.charCodeAt(i);
-  return (h>>>0).toString(16);
-}
-
-document.getElementById('authSubmit').addEventListener('click', async ()=>{
-  const email = document.getElementById('authEmail').value.trim().toLowerCase();
-  const pass  = document.getElementById('authPass').value;
-  const name  = document.getElementById('authName').value.trim();
-  const isReg = document.getElementById('nameField').style.display !== 'none';
-  if(!email || !pass || (isReg && !name)){ flash('Please fill all fields.'); return; }
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ flash('Enter a valid email.'); return; }
-  if(pass.length<6){ flash('Password must be at least 6 characters.'); return; }
-  if(!STORAGE){
-    // Fall back to in-memory session
-    currentUser = {email, name: name || email.split('@')[0]};
-    flash('Signed in (session only — persistent storage unavailable).', true);
-    onAuthSuccess();
-    return;
-  }
-  const userKey = `t21:user:${email}`;
-  try{
-    if(isReg){
-      let existing=null;
-      try{ existing = await STORAGE.get(userKey); }catch(_){}
-      if(existing && existing.value){ flash('Account exists. Please sign in.'); return; }
-      const hash = await djb2(pass);
-      await STORAGE.set(userKey, JSON.stringify({email,name,hash,created:Date.now()}));
-      currentUser = {email,name};
-      flash('Account created.', true);
-      onAuthSuccess();
-    } else {
-      let r=null; try{ r = await STORAGE.get(userKey); }catch(_){}
-      if(!r || !r.value){ flash('No account found for that email.'); return; }
-      const data = JSON.parse(r.value);
-      const hash = await djb2(pass);
-      if(hash !== data.hash){ flash('Incorrect password.'); return; }
-      currentUser = {email:data.email, name:data.name};
-      flash('Signed in.', true);
-      onAuthSuccess();
-    }
-    // Remember session in this tab
-    try{ await STORAGE.set(`t21:session`, JSON.stringify(currentUser)); }catch(_){}
-  } catch(err){
-    flash('Storage error — try again.');
-  }
-});
-
-function flash(msg, ok=false){
-  const e = document.getElementById('authMsg');
-  e.textContent = msg; e.classList.toggle('ok', !!ok); e.classList.add('show');
-  setTimeout(()=>e.classList.remove('show'), 3000);
-}
-
-function onAuthSuccess(){
-  setTimeout(closeAuth, 600);
-  renderUserBadge();
-  document.getElementById('trackerGreeting').textContent = `Welcome, ${currentUser.name || currentUser.email.split('@')[0]}`;
-  document.getElementById('accountState').textContent = currentUser.email;
-  loadToday();
-  refreshStreakAndAvg();
-}
-
-function renderUserBadge(){
-  const nav = document.getElementById('navCta');
-  nav.innerHTML = '';
-  if(!currentUser){
-    nav.innerHTML = `<button class="btn btn-sm" id="loginBtn">Sign In</button>
-                     <button class="btn btn-sm btn-primary" id="registerBtn">Create Account</button>`;
-    document.getElementById('loginBtn').addEventListener('click',()=>openAuth('login'));
-    document.getElementById('registerBtn').addEventListener('click',()=>openAuth('register'));
-    document.getElementById('accountState').textContent = 'Guest';
-    document.getElementById('trackerGreeting').textContent = 'Your daily check-in';
-    return;
-  }
-  const initials = (currentUser.name || currentUser.email).split(/[\s@]/).filter(Boolean).map(s=>s[0]).slice(0,2).join('').toUpperCase();
-  const badge = document.createElement('div');
-  badge.className = 'user-badge';
-  badge.innerHTML = `<div class="user-avatar">${initials}</div><div><div class="name">${currentUser.name || currentUser.email.split('@')[0]}</div></div><button class="logout" id="logoutBtn">Sign out</button>`;
-  nav.appendChild(badge);
-  document.getElementById('logoutBtn').addEventListener('click', async ()=>{
-    currentUser = null;
-    if(STORAGE){ try{ await STORAGE.delete('t21:session'); }catch(_){ } }
-    renderUserBadge();
-    habitList.querySelectorAll('input[type=checkbox]').forEach(b=>b.checked=false);
-    updateStats();
-    refreshStreakAndAvg();
-  });
-}
-
-/* Restore session */
-(async ()=>{
-  updateStats();
-  if(STORAGE){
-    try{
-      const r = await STORAGE.get('t21:session');
-      if(r && r.value){ currentUser = JSON.parse(r.value); }
-    }catch(_){}
-  }
-  renderUserBadge();
-  if(currentUser){
-    document.getElementById('trackerGreeting').textContent = `Welcome, ${currentUser.name || currentUser.email.split('@')[0]}`;
-    document.getElementById('accountState').textContent = currentUser.email;
-    await loadToday();
-    await refreshStreakAndAvg();
-  }
-})();
-
-</script>
+<script src="data.js"></script>
+<script src="shared.js"></script>
+<script src="components.js"></script>
+<script>T21.boot('index.html');</script>
 </body>
 </html>
