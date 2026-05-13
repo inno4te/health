@@ -493,3 +493,557 @@ window.SYSTEMS = SYSTEMS;
 window.AFRICAN_FOODS = AFRICAN_FOODS;
 window.COOKING_METHODS = COOKING_METHODS;
 window.QUIZZES = QUIZZES;
+
+/* ============================================================
+   MEDICINES — common over-the-counter / prescribed medicines
+   used across Africa, Europe and the US, with brand aliases,
+   natural alternatives and notable side effects.
+   Sources: WHO Essential Medicines List, BNF, FDA labels,
+   African pharmacopoeia surveys, peer-reviewed pharmacology reviews.
+============================================================ */
+const MEDICINES = [
+  // ===== PAIN & FEVER =====
+  {
+    id:'paracetamol',
+    cat:'pain',
+    name:'Paracetamol (Acetaminophen)',
+    brands:'Efferalgan, Doliprane, Panadol, Tylenol, Tempra, Calpol',
+    use:'Mild-to-moderate pain, fever reduction. First-line analgesic.',
+    dose:'Adults: 500–1000 mg every 4–6 h; maximum 3 g/day (recently lowered from 4 g due to hepatotoxicity risk). Children: weight-based dosing.',
+    sideEffects:[
+      'Hepatotoxicity (liver damage) — leading cause of acute liver failure worldwide when taken above recommended doses',
+      'Rash and rare severe skin reactions (Stevens-Johnson syndrome)',
+      'Kidney impairment with chronic high use',
+      'Particularly dangerous combined with alcohol — never exceed 2 g/day if drinking'
+    ],
+    alternatives:[
+      'Willow bark (Salix alba) — contains salicin, the natural precursor to aspirin. Effective for headache and joint pain.',
+      'Turmeric (Curcuma longa) with black pepper — anti-inflammatory; modest analgesic effect in osteoarthritis trials.',
+      'Ginger tea — proven for menstrual pain and tension headache.',
+      'Cold/warm compress + rest for tension headache.',
+      'Adequate hydration — many "headaches" are dehydration.'
+    ],
+    note:'Paracetamol remains the safest first-line at correct doses. Natural alternatives are adjuncts, not replacements for high fever in children.'
+  },
+  {
+    id:'ibuprofen',
+    cat:'pain',
+    name:'Ibuprofen',
+    brands:'Brufen, Advil, Nurofen, Motrin, Algifor',
+    use:'Pain, inflammation, fever. NSAID class.',
+    dose:'Adults: 200–400 mg every 4–6 h; maximum 1.2 g/day OTC, 2.4 g/day prescribed. Always with food.',
+    sideEffects:[
+      'Gastric ulcers and bleeding — risk rises sharply over age 60',
+      'Kidney damage, especially with dehydration or pre-existing CKD',
+      'Increased cardiovascular risk (heart attack, stroke) with chronic high doses',
+      'Raised blood pressure',
+      'Asthma exacerbation in sensitive individuals'
+    ],
+    alternatives:[
+      'Turmeric/curcumin (1–2 g/day with piperine) — anti-inflammatory comparable to ibuprofen in some osteoarthritis trials.',
+      'Ginger (1–2 g/day) — reduces menstrual pain and muscle soreness in RCTs.',
+      'Omega-3 fish oils (2–3 g/day EPA+DHA) — reduces joint inflammation.',
+      'Topical capsaicin cream for neuropathic and joint pain.',
+      'Movement and physiotherapy — most effective long-term for chronic musculoskeletal pain.'
+    ],
+    note:'Avoid in pregnancy (3rd trimester), peptic ulcer disease, severe heart failure, and stage 3+ kidney disease.'
+  },
+  {
+    id:'aspirin',
+    cat:'pain',
+    name:'Aspirin (Acetylsalicylic Acid)',
+    brands:'Aspégic, Disprin, Bayer, Ecotrin, Acetylin',
+    use:'Pain, fever, anti-platelet (heart attack/stroke prevention in select patients).',
+    dose:'Pain: 300–600 mg every 4–6 h. Cardio-protection: 75–100 mg daily (only under medical advice).',
+    sideEffects:[
+      'GI bleeding — risk rises with age and dose',
+      'Reye syndrome in children with viral illness — NEVER give to under-16s with fever',
+      'Tinnitus at high doses',
+      'Allergic reactions, including bronchospasm in asthmatics',
+      'Increased bleeding with other anticoagulants'
+    ],
+    alternatives:[
+      'Willow bark — natural source of salicin (slower acting, gentler on stomach).',
+      'Meadowsweet tea — traditional European salicylate-containing herb.',
+      'For cardiovascular protection: there is no equivalent natural alternative — discuss with your doctor.',
+      'For mild pain: heat, rest, ginger, turmeric.'
+    ],
+    note:'Routine daily aspirin for primary cardiovascular prevention is no longer recommended for most adults (USPSTF 2022). Only continue if your doctor prescribes.'
+  },
+  {
+    id:'diclofenac',
+    cat:'pain',
+    name:'Diclofenac',
+    brands:'Voltaren, Voltarol, Cataflam, Diclac, Olfen',
+    use:'Inflammation, pain (joint, dental, post-surgical). NSAID class.',
+    dose:'25–50 mg 2–3× per day. Topical gel preferred for joint/muscle pain — far safer than oral.',
+    sideEffects:[
+      'High cardiovascular risk — withdrawn or restricted in some countries',
+      'GI bleeding, ulcers',
+      'Kidney injury',
+      'Liver enzyme elevation',
+      'Photosensitivity (topical)'
+    ],
+    alternatives:[
+      'Topical capsaicin or arnica gel for joint pain.',
+      'Turmeric + boswellia (frankincense extract) — joint inflammation.',
+      'Devil\'s claw (Harpagophytum) — back and joint pain.',
+      'Physical therapy and movement — most evidence for chronic joint pain.'
+    ],
+    note:'Use lowest dose for shortest time. Topical forms have ~90% less systemic absorption.'
+  },
+
+  // ===== ANTIMALARIALS =====
+  {
+    id:'artemether-lumefantrine',
+    cat:'antimalarial',
+    name:'Artemether-Lumefantrine',
+    brands:'Artefan, Coartem, Riamet, Lonart, Artequin',
+    use:'First-line treatment for uncomplicated P. falciparum malaria (WHO recommended).',
+    dose:'Adult: 4 tablets twice daily for 3 days, with fatty food. Weight-based for children.',
+    sideEffects:[
+      'Headache, dizziness',
+      'Nausea, vomiting, loss of appetite',
+      'QT interval prolongation — caution with heart rhythm conditions',
+      'Sleep disturbance',
+      'Rare allergic reactions'
+    ],
+    alternatives:[
+      'There is NO reliable natural alternative for treating active malaria — failure to treat properly is often fatal.',
+      'Artemisinin itself comes from Artemisia annua (sweet wormwood) but the herbal form alone is INADEQUATE and breeds resistance — always use the combination tablet.',
+      'PREVENTION: long-sleeved clothing, treated bed nets, indoor residual spraying, neem leaf preparations as additional repellent (limited evidence).',
+      'Quinine from cinchona bark is the historic source — still used for severe malaria under medical supervision.'
+    ],
+    note:'Always complete the full 3-day course even if you feel better. Incomplete treatment is the #1 driver of artemisinin resistance.'
+  },
+  {
+    id:'chloroquine',
+    cat:'antimalarial',
+    name:'Chloroquine',
+    brands:'Nivaquine, Aralen, Resochin',
+    use:'Treatment of P. vivax, P. ovale, P. malariae. NOT effective against most P. falciparum due to widespread resistance.',
+    dose:'Adult: 600 mg base then 300 mg at 6, 24, 48 h.',
+    sideEffects:[
+      'Visual changes, retinal damage with long-term use',
+      'Itching (especially in people with darker skin)',
+      'Nausea, abdominal pain',
+      'Cardiac arrhythmia at high doses',
+      'Worsening of psoriasis and porphyria'
+    ],
+    alternatives:[
+      'For prevention: doxycycline, mefloquine, atovaquone-proguanil under medical supervision.',
+      'No reliable herbal substitute for active treatment.'
+    ],
+    note:'Resistance is now widespread. Do not self-medicate based on old advice — confirm with current local guidelines.'
+  },
+
+  // ===== ANTIBIOTICS =====
+  {
+    id:'amoxicillin',
+    cat:'antibiotic',
+    name:'Amoxicillin',
+    brands:'Amoxil, Clamoxyl, Trimox, Moxatag, Hiconcil',
+    use:'Bacterial infections: respiratory tract, urinary, dental, otitis media, H. pylori (in combination).',
+    dose:'Adult: 250–500 mg three times daily; 875 mg twice daily extended-release. Always complete the full course.',
+    sideEffects:[
+      'Diarrhoea, nausea, vomiting',
+      'Yeast overgrowth (oral thrush, vaginal candidiasis)',
+      'Skin rash — sometimes serious; never re-take if rash occurred previously',
+      'Anaphylaxis in penicillin-allergic patients',
+      'Antibiotic-associated colitis (rare)'
+    ],
+    alternatives:[
+      'There is no natural substitute for antibiotics when bacterial infection is confirmed — viral infections (most colds, flu) do not need antibiotics at all.',
+      'For PREVENTION & immune support: garlic (raw, crushed; allicin has mild antibacterial activity), honey (topical for wounds — manuka strongest evidence), oregano oil (caution — potent), echinacea (modest cold-shortening evidence).',
+      'For mild sore throat: salt-water gargles, honey + lemon, throat coat tea.',
+      'Probiotics during and 2 weeks after a course to restore gut flora.'
+    ],
+    note:'Never share antibiotics, never save leftover tablets, never take without confirmation of bacterial infection. Misuse drives antibiotic resistance — already killing 1.27 million people per year globally.'
+  },
+  {
+    id:'metronidazole',
+    cat:'antibiotic',
+    name:'Metronidazole',
+    brands:'Flagyl, Metrogyl, Rozex',
+    use:'Anaerobic bacterial and parasitic infections — giardia, amoebic dysentery, bacterial vaginosis, dental abscess, C. difficile colitis.',
+    dose:'250–500 mg every 8–12 h depending on indication.',
+    sideEffects:[
+      'Severe nausea and vomiting if combined with ALCOHOL — avoid alcohol for 48 h after the last dose',
+      'Metallic taste',
+      'Dark urine',
+      'Peripheral neuropathy with long courses',
+      'Headache, dizziness'
+    ],
+    alternatives:[
+      'For giardia/amoebiasis: NO reliable herbal substitute — these are serious infections.',
+      'For PREVENTION: clean water, handwashing, properly cooked food.',
+      'For bacterial vaginosis recurrence: probiotics with Lactobacillus crispatus, boric acid suppositories (under guidance).',
+      'Garlic (raw) has documented antiparasitic activity but is far weaker than the drug.'
+    ],
+    note:'Strictly no alcohol during treatment and for 2 days after.'
+  },
+  {
+    id:'ciprofloxacin',
+    cat:'antibiotic',
+    name:'Ciprofloxacin',
+    brands:'Ciproxin, Cipro, Cipromed',
+    use:'UTI, gastroenteritis, typhoid, some respiratory infections. Fluoroquinolone class.',
+    dose:'250–750 mg twice daily. Not first-line for routine infections due to resistance and serious side effects.',
+    sideEffects:[
+      'Tendon rupture (especially Achilles) — risk rises with age and steroid use',
+      'C. difficile colitis',
+      'QT prolongation',
+      'Aortic aneurysm risk',
+      'Photosensitivity',
+      'Peripheral neuropathy (sometimes irreversible)',
+      'Mental health effects (confusion, anxiety)'
+    ],
+    alternatives:[
+      'For UTI: cranberry products (modest prevention evidence; not treatment), D-mannose (some evidence for prevention).',
+      'For travelers diarrhoea: hydration, oral rehydration salts, zinc; activated charcoal for mild cases.',
+      'There is NO substitute for treating typhoid — seek medical care.'
+    ],
+    note:'Avoid in pregnancy and children unless no alternative. Take 2 h apart from antacids, dairy, iron supplements.'
+  },
+
+  // ===== ALLERGY / RESPIRATORY =====
+  {
+    id:'cetirizine',
+    cat:'allergy',
+    name:'Cetirizine',
+    brands:'Zyrtec, Reactine, Virlix, Cetzine, Alerid',
+    use:'Allergic rhinitis, urticaria, itching. Second-generation antihistamine.',
+    dose:'Adult: 10 mg once daily. Children: 5 mg.',
+    sideEffects:[
+      'Drowsiness (more than other second-gen antihistamines)',
+      'Dry mouth',
+      'Headache',
+      'Urinary retention in older men',
+      'Rebound itch on sudden withdrawal (long-term users)'
+    ],
+    alternatives:[
+      'Local honey daily (limited evidence for desensitisation to local pollens).',
+      'Nettle (Urtica dioica) freeze-dried preparations — some RCT support for hay fever.',
+      'Quercetin (a flavonoid; in apples, onions, capers) stabilises mast cells.',
+      'Nasal saline rinses (very effective for symptom relief).',
+      'HEPA air filtration at home.',
+      'Vitamin C 1g/day (modest evidence).'
+    ],
+    note:'Non-drowsy alternatives: loratadine, fexofenadine, desloratadine.'
+  },
+  {
+    id:'salbutamol',
+    cat:'respiratory',
+    name:'Salbutamol (Albuterol)',
+    brands:'Ventolin, ProAir, Asthalin, Salbulin',
+    use:'Asthma rescue inhaler; relieves acute bronchospasm.',
+    dose:'Inhaled: 2 puffs (100 mcg each) every 4–6 h as needed.',
+    sideEffects:[
+      'Tremor, palpitations, fast heart rate',
+      'Headache',
+      'Muscle cramps (with overuse)',
+      'Low potassium with high doses',
+      'Paradoxical bronchospasm (rare)'
+    ],
+    alternatives:[
+      'There is NO safe substitute for acute asthma rescue — this is life-saving medication.',
+      'For long-term asthma control: omega-3 fish oils (modest), magnesium (deficiency worsens asthma), vitamin D if deficient, weight loss if overweight.',
+      'Breathing exercises (Buteyko, Papworth) reduce reliever use in clinical trials.',
+      'Avoiding triggers: dust mites, mould, smoke, cold air.'
+    ],
+    note:'If using rescue inhaler more than 2× weekly, you need preventer treatment — see your doctor.'
+  },
+
+  // ===== GI / DIGESTION =====
+  {
+    id:'omeprazole',
+    cat:'gi',
+    name:'Omeprazole',
+    brands:'Losec, Prilosec, Mopral, Omez, Gastrogard',
+    use:'Acid reflux, peptic ulcers, H. pylori (with antibiotics). Proton pump inhibitor.',
+    dose:'20–40 mg once daily before breakfast.',
+    sideEffects:[
+      'Long-term use: vitamin B12 and magnesium deficiency',
+      'Increased risk of bone fractures, pneumonia, C. difficile',
+      'Possible association with chronic kidney disease',
+      'Rebound acid hypersecretion when stopping',
+      'Headache, nausea, diarrhoea'
+    ],
+    alternatives:[
+      'Lifestyle: weight loss, smaller meals, no eating 3 h before bed, elevate head of bed, reduce alcohol/coffee/spicy food/tomato.',
+      'Slippery elm and DGL liquorice — coat the oesophagus.',
+      'Chamomile and marshmallow root teas — soothing.',
+      'Apple cider vinegar (1 tsp in water before meals) — paradoxically helps if low stomach acid is the cause (not high acid).',
+      'Probiotics for H. pylori adjunct therapy.',
+      'Sleep on your left side.'
+    ],
+    note:'Intended for 4–8 week courses. Long-term continuous use should be reviewed regularly with your doctor.'
+  },
+  {
+    id:'loperamide',
+    cat:'gi',
+    name:'Loperamide',
+    brands:'Imodium, Diaretyl, Lopex',
+    use:'Acute non-infectious diarrhoea.',
+    dose:'4 mg initially, then 2 mg after each loose stool; max 16 mg/day.',
+    sideEffects:[
+      'Constipation',
+      'Abdominal cramps',
+      'Dangerous cardiac arrhythmia at high doses (abuse)',
+      'Prolongs infectious diarrhoea (do NOT use if blood in stool or fever)'
+    ],
+    alternatives:[
+      'Oral rehydration salts (ORS) — most important treatment globally.',
+      'Plain rice water, banana, applesauce, toast (BRAT diet).',
+      'Carob powder, blackberry leaf tea, agrimony — traditional astringents.',
+      'Probiotics (Saccharomyces boulardii, Lactobacillus) shorten duration.',
+      'Activated charcoal for adsorption.',
+      'Zinc supplementation (especially in children) reduces severity.'
+    ],
+    note:'NEVER use loperamide for diarrhoea with fever or blood — it can cause toxic megacolon.'
+  },
+
+  // ===== METABOLIC / CARDIO =====
+  {
+    id:'metformin',
+    cat:'metabolic',
+    name:'Metformin',
+    brands:'Glucophage, Glumetza, Riomet, Diabex',
+    use:'Type 2 diabetes (first-line); PCOS; possibly anti-ageing trials.',
+    dose:'500 mg twice daily with food, titrated to 2 g/day max. Extended-release better tolerated.',
+    sideEffects:[
+      'Diarrhoea, nausea, metallic taste (most common; usually settles)',
+      'Vitamin B12 deficiency (test annually after 4+ years)',
+      'Lactic acidosis (rare, mainly in renal impairment)',
+      'Modest weight loss (often desirable)'
+    ],
+    alternatives:[
+      'Berberine 500 mg 3×/day — comparable HbA1c reduction in trials but more GI upset.',
+      'Cinnamon 1–6 g/day (modest effect).',
+      'Bitter melon (Momordica charantia) — traditional, modest evidence.',
+      'Fenugreek seeds.',
+      'BIGGEST IMPACT: low-glycaemic whole-food diet, regular exercise, weight loss of 5–10%, adequate sleep.',
+      'The DiRECT trial showed 50% of T2 diabetes can be put into remission with intensive lifestyle change alone.'
+    ],
+    note:'Type 2 diabetes is often reversible early in its course. Discuss with your doctor — do not stop medication without supervision.'
+  },
+  {
+    id:'amlodipine',
+    cat:'cardio',
+    name:'Amlodipine',
+    brands:'Norvasc, Amlor, Istin, Amlocard',
+    use:'Hypertension, angina. Calcium channel blocker.',
+    dose:'5–10 mg once daily.',
+    sideEffects:[
+      'Ankle swelling (common, dose-related)',
+      'Headache, flushing',
+      'Gum overgrowth (gingival hyperplasia)',
+      'Dizziness',
+      'Reflex tachycardia (rare)'
+    ],
+    alternatives:[
+      'Hibiscus tea (bissap/sobolo/zobo) — RCTs show ~7 mmHg systolic reduction.',
+      'Beetroot juice — nitrate-rich, ~4–5 mmHg reduction.',
+      'DASH or Mediterranean diet patterns.',
+      'Daily walking (30+ min) — comparable to single antihypertensive.',
+      'Salt reduction <5 g/day.',
+      'Weight loss (~1 mmHg per kg lost).',
+      'Magnesium, potassium adequate intake.',
+      'Stress management — meditation, slow breathing.'
+    ],
+    note:'Untreated hypertension is a leading cause of stroke. Lifestyle changes can reduce or eliminate need for medication, but never stop tablets abruptly — taper under medical supervision.'
+  },
+  {
+    id:'atorvastatin',
+    cat:'cardio',
+    name:'Atorvastatin',
+    brands:'Lipitor, Sortis, Torvast, Atorlip',
+    use:'High cholesterol; cardiovascular event prevention.',
+    dose:'10–80 mg once daily in the evening.',
+    sideEffects:[
+      'Muscle aches (myalgia) — most common reason for discontinuation',
+      'Rare rhabdomyolysis (severe muscle breakdown)',
+      'Liver enzyme elevation',
+      'Slightly increased diabetes risk',
+      'Memory issues (controversial — some patients report)',
+      'Headache'
+    ],
+    alternatives:[
+      'Plant sterols/stanols 2 g/day (in fortified yogurts/margarines) — 10% LDL reduction.',
+      'Soluble fibre: oats, barley, psyllium, beans — 5–10% reduction.',
+      'Red yeast rice (contains natural lovastatin — same class, same side effect profile, but unstandardised).',
+      'Bergamot extract.',
+      'Fish oils for triglycerides.',
+      'Mediterranean diet pattern.',
+      '30+ min daily exercise.',
+      'Smoking cessation.'
+    ],
+    note:'Statins are well-evidenced for high-risk patients (post-MI, diabetes, very high LDL). Discuss your individual cardiovascular risk with your doctor.'
+  },
+
+  // ===== MENTAL HEALTH =====
+  {
+    id:'diazepam',
+    cat:'mental',
+    name:'Diazepam',
+    brands:'Valium, Stesolid, Diapam',
+    use:'Severe anxiety, seizures, muscle spasm, alcohol withdrawal. Benzodiazepine.',
+    dose:'2–10 mg up to 4× daily. Short-term only (2–4 weeks max).',
+    sideEffects:[
+      'Drowsiness, sedation, slowed reactions',
+      'STRONG DEPENDENCE — addiction develops within weeks',
+      'Severe withdrawal: seizures, hallucinations, prolonged anxiety',
+      'Falls in elderly',
+      'Memory impairment',
+      'Respiratory depression with opioids or alcohol — fatal'
+    ],
+    alternatives:[
+      'Cognitive Behavioural Therapy — equally effective for anxiety, no side effects.',
+      'Lavender oil capsules (Silexan) — RCT evidence for generalised anxiety.',
+      'Chamomile, passionflower, lemon balm teas.',
+      'Magnesium (especially if deficient).',
+      'Regular aerobic exercise.',
+      'Mindfulness meditation, slow-breathing (5–6 breaths/min).',
+      'Adequate sleep, reduced caffeine.',
+      'Ashwagandha (modest RCT evidence).'
+    ],
+    note:'Never stop benzodiazepines abruptly after regular use. Taper under medical supervision over weeks to months.'
+  },
+
+  // ===== TRADITIONAL/REGIONAL =====
+  {
+    id:'ors',
+    cat:'gi',
+    name:'Oral Rehydration Salts (ORS)',
+    brands:'Hydralyte, Pedialyte, Dioralyte, Rehidrat',
+    use:'Dehydration from diarrhoea, vomiting, heat exhaustion. WHO Essential Medicine. Has saved more lives than any other intervention in modern medicine.',
+    dose:'1 sachet in 1 litre of clean water; sip throughout the day until urine clear.',
+    sideEffects:[
+      'Essentially none at correct dilution',
+      'Excess sodium if over-concentrated'
+    ],
+    alternatives:[
+      'Home-made ORS: 1 L safe water + 6 level teaspoons sugar + 1/2 teaspoon salt (WHO formula).',
+      'Coconut water — natural electrolytes, almost identical to ORS.',
+      'Rice water with a pinch of salt.',
+      'Banana for potassium.'
+    ],
+    note:'ORS treats dehydration but does not stop diarrhoea — that is the body clearing infection. Persistent diarrhoea >3 days, with blood, or in young children needs medical evaluation.'
+  }
+];
+
+/* ============================================================
+   SCRIPTURE & ENCOURAGEMENT
+   Curated passages for resilience, hope, and trust — drawn
+   from the Christian Bible (NIV, ESV translations used as the
+   reference where wording matters). Grouped by life situation.
+============================================================ */
+const SCRIPTURES = [
+  {
+    theme:'When you feel anxious or afraid',
+    icon:'🕊',
+    intro:'Fear and anxiety touch every life. Scripture acknowledges this honestly — and then points beyond the fear to a peace that does not depend on the circumstances around us.',
+    verses:[
+      { ref:'Philippians 4:6–7', text:'Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God. And the peace of God, which transcends all understanding, will guard your hearts and your minds in Christ Jesus.' },
+      { ref:'Isaiah 41:10', text:'So do not fear, for I am with you; do not be dismayed, for I am your God. I will strengthen you and help you; I will uphold you with my righteous right hand.' },
+      { ref:'Psalm 23:4', text:'Even though I walk through the darkest valley, I will fear no evil, for you are with me; your rod and your staff, they comfort me.' },
+      { ref:'2 Timothy 1:7', text:'For God has not given us a spirit of fear, but of power and of love and of a sound mind.' },
+      { ref:'John 14:27', text:'Peace I leave with you; my peace I give you. I do not give to you as the world gives. Do not let your hearts be troubled and do not be afraid.' }
+    ],
+    reflection:'Anxiety often shrinks when we name what we fear and bring it deliberately into prayer. Try writing the worry down, reading it slowly, and then speaking it aloud as a request — not a demand. The simple act of doing so re-centres the mind.'
+  },
+  {
+    theme:'When you are exhausted or burned out',
+    icon:'🌿',
+    intro:'Even the strongest person reaches the end of their strength. Scripture offers permission to rest, and reminders that rest itself is sacred — modelled by God on the seventh day.',
+    verses:[
+      { ref:'Matthew 11:28–30', text:'Come to me, all you who are weary and burdened, and I will give you rest. Take my yoke upon you and learn from me, for I am gentle and humble in heart, and you will find rest for your souls. For my yoke is easy and my burden is light.' },
+      { ref:'Isaiah 40:29–31', text:'He gives strength to the weary and increases the power of the weak. Even youths grow tired and weary, and young men stumble and fall; but those who hope in the Lord will renew their strength. They will soar on wings like eagles; they will run and not grow weary, they will walk and not be faint.' },
+      { ref:'Psalm 46:10', text:'Be still, and know that I am God; I will be exalted among the nations, I will be exalted in the earth.' },
+      { ref:'Mark 6:31', text:'Then, because so many people were coming and going that they did not even have a chance to eat, he said to them, "Come with me by yourselves to a quiet place and get some rest."' },
+      { ref:'Exodus 33:14', text:'The Lord replied, "My Presence will go with you, and I will give you rest."' }
+    ],
+    reflection:'Rest is not laziness. Jesus himself withdrew to quiet places — repeatedly. Protect a Sabbath rhythm: one day a week without work, without striving. Sleep is a daily act of trust.'
+  },
+  {
+    theme:'When you grieve or face loss',
+    icon:'🤍',
+    intro:'Grief is the price of love. Scripture does not minimise pain — it names it, sits with it, and points toward a hope larger than death itself.',
+    verses:[
+      { ref:'Psalm 34:18', text:'The Lord is close to the brokenhearted and saves those who are crushed in spirit.' },
+      { ref:'Matthew 5:4', text:'Blessed are those who mourn, for they will be comforted.' },
+      { ref:'Revelation 21:4', text:'He will wipe every tear from their eyes. There will be no more death or mourning or crying or pain, for the old order of things has passed away.' },
+      { ref:'John 11:35', text:'Jesus wept.' },
+      { ref:'2 Corinthians 1:3–4', text:'Praise be to the God and Father of our Lord Jesus Christ, the Father of compassion and the God of all comfort, who comforts us in all our troubles, so that we can comfort those in any trouble with the comfort we ourselves receive from God.' }
+    ],
+    reflection:'Grief moves at its own pace. There is no "should" in mourning. Speak about the person you lost; light a candle; write what you remember. The shortest verse in the Bible — "Jesus wept" — gives every griever permission to weep too.'
+  },
+  {
+    theme:'When you feel hopeless or depressed',
+    icon:'🌅',
+    intro:'Even the prophet Elijah, after his greatest victory, sat under a tree and asked to die. Scripture takes despair seriously, and so should we. These verses do not erase the dark — but they refuse to let it be the final word.',
+    verses:[
+      { ref:'Psalm 42:11', text:'Why, my soul, are you downcast? Why so disturbed within me? Put your hope in God, for I will yet praise him, my Saviour and my God.' },
+      { ref:'Lamentations 3:22–23', text:'Because of the Lord\'s great love we are not consumed, for his compassions never fail. They are new every morning; great is your faithfulness.' },
+      { ref:'Romans 8:38–39', text:'For I am convinced that neither death nor life, neither angels nor demons, neither the present nor the future, nor any powers, neither height nor depth, nor anything else in all creation, will be able to separate us from the love of God that is in Christ Jesus our Lord.' },
+      { ref:'Psalm 30:5', text:'Weeping may stay for the night, but rejoicing comes in the morning.' },
+      { ref:'1 Kings 19:5–8', text:'Then he lay down under the bush and fell asleep. All at once an angel touched him and said, "Get up and eat." He looked around, and there by his head was some bread baked over hot coals, and a jar of water. He ate and drank and then lay down again.'}
+    ],
+    reflection:'When Elijah collapsed in despair, God\'s first response was not a lecture — it was sleep, food, water. Faith and physical care are partners. If you are struggling deeply, please also reach out to a doctor or trusted counsellor: prayer and professional help are not in competition.'
+  },
+  {
+    theme:'For resilience and perseverance',
+    icon:'🌳',
+    intro:'A faith that lasts is one that has weathered storms. Scripture is unsentimental about hardship — and unflinching about the strength that grows through it.',
+    verses:[
+      { ref:'James 1:2–4', text:'Consider it pure joy, my brothers and sisters, whenever you face trials of many kinds, because you know that the testing of your faith produces perseverance. Let perseverance finish its work so that you may be mature and complete, not lacking anything.' },
+      { ref:'Romans 5:3–5', text:'We also glory in our sufferings, because we know that suffering produces perseverance; perseverance, character; and character, hope. And hope does not put us to shame, because God\'s love has been poured out into our hearts through the Holy Spirit, who has been given to us.' },
+      { ref:'2 Corinthians 4:16–18', text:'Therefore we do not lose heart. Though outwardly we are wasting away, yet inwardly we are being renewed day by day. For our light and momentary troubles are achieving for us an eternal glory that far outweighs them all.' },
+      { ref:'Hebrews 12:1–2', text:'Let us run with perseverance the race marked out for us, fixing our eyes on Jesus, the pioneer and perfecter of faith.' },
+      { ref:'Philippians 4:13', text:'I can do all this through him who gives me strength.' }
+    ],
+    reflection:'Resilience is rarely dramatic. It is the small choice — to get up, to pray once more, to do the next right thing — repeated over and over until it becomes a life. Character is built one ordinary day at a time.'
+  },
+  {
+    theme:'Trusting God in uncertainty',
+    icon:'🧭',
+    intro:'When the road ahead is unclear, trust is not the absence of questions — it is the decision to keep walking anyway. Scripture is full of people who said yes before they understood.',
+    verses:[
+      { ref:'Proverbs 3:5–6', text:'Trust in the Lord with all your heart and lean not on your own understanding; in all your ways submit to him, and he will make your paths straight.' },
+      { ref:'Jeremiah 29:11', text:'For I know the plans I have for you, declares the Lord, plans to prosper you and not to harm you, plans to give you hope and a future.' },
+      { ref:'Psalm 37:5', text:'Commit your way to the Lord; trust in him and he will do this.' },
+      { ref:'Romans 8:28', text:'And we know that in all things God works for the good of those who love him, who have been called according to his purpose.' },
+      { ref:'Isaiah 55:8–9', text:'"For my thoughts are not your thoughts, neither are your ways my ways," declares the Lord. "As the heavens are higher than the earth, so are my ways higher than your ways and my thoughts than your thoughts."' }
+    ],
+    reflection:'Trust grows by being exercised. Look back at moments of past provision before you ask what the future holds. Often the answer to "will you trust me now?" is built from the receipts of "I was trustworthy then".'
+  },
+  {
+    theme:'On gratitude and worship',
+    icon:'✨',
+    intro:'Gratitude is the most evidence-based mental health intervention in modern psychology. Scripture has known this for millennia — every psalm is a posture of attention.',
+    verses:[
+      { ref:'1 Thessalonians 5:16–18', text:'Rejoice always, pray continually, give thanks in all circumstances; for this is God\'s will for you in Christ Jesus.' },
+      { ref:'Psalm 100:4', text:'Enter his gates with thanksgiving and his courts with praise; give thanks to him and praise his name.' },
+      { ref:'Psalm 103:1–5', text:'Praise the Lord, my soul; all my inmost being, praise his holy name. Praise the Lord, my soul, and forget not all his benefits — who forgives all your sins and heals all your diseases, who redeems your life from the pit and crowns you with love and compassion, who satisfies your desires with good things so that your youth is renewed like the eagle\'s.' },
+      { ref:'Colossians 3:15–17', text:'And be thankful. Let the message of Christ dwell among you richly as you teach and admonish one another with all wisdom through psalms, hymns, and songs from the Spirit, singing to God with gratitude in your hearts.' },
+      { ref:'Psalm 150:6', text:'Let everything that has breath praise the Lord. Praise the Lord.' }
+    ],
+    reflection:'Try this for one week: at the end of each day, name three specific things you are grateful for, however small. The cumulative effect on mood and sleep is measurable within days.'
+  },
+  {
+    theme:'On healing and physical wellbeing',
+    icon:'🌱',
+    intro:'Scripture treats the body as sacred — not as something to escape but as something to steward. Healing is presented as God\'s desire, even when its timing and form remain mysterious.',
+    verses:[
+      { ref:'Psalm 139:13–14', text:'For you created my inmost being; you knit me together in my mother\'s womb. I praise you because I am fearfully and wonderfully made; your works are wonderful, I know that full well.' },
+      { ref:'3 John 1:2', text:'Dear friend, I pray that you may enjoy good health and that all may go well with you, even as your soul is getting along well.' },
+      { ref:'Jeremiah 17:14', text:'Heal me, Lord, and I will be healed; save me and I will be saved, for you are the one I praise.' },
+      { ref:'James 5:14–15', text:'Is anyone among you sick? Let them call the elders of the church to pray over them and anoint them with oil in the name of the Lord. And the prayer offered in faith will make the sick person well; the Lord will raise them up.' },
+      { ref:'1 Corinthians 6:19–20', text:'Do you not know that your bodies are temples of the Holy Spirit, who is in you, whom you have received from God? You are not your own; you were bought at a price. Therefore honour God with your bodies.' }
+    ],
+    reflection:'Care for your body is a spiritual act. Sleep, movement, nourishment and rest are not separate from faith — they are an offering of stewardship. Pray for healing; also see your doctor. Both are gifts.'
+  }
+];
+
+window.MEDICINES = MEDICINES;
+window.SCRIPTURES = SCRIPTURES;

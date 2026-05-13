@@ -159,6 +159,8 @@ const FR_UI = {
   'nav.remedies':'Remèdes naturels',
   'nav.tracker':'Suivi quotidien',
   'nav.quizzes':'Quiz',
+  'nav.medicines':'Médicaments & alternatives',
+  'nav.encouragement':'Foi & encouragement',
 
   // Buttons
   'btn.bookmark':'☆ Favori',

@@ -182,8 +182,10 @@ const T21 = {
       {type:'menu', label:tr('nav.act','Act'), items:[
         ['proposals.html',tr('nav.proposals','Proposals')],
         ['natural-remedies.html',tr('nav.remedies','Natural Remedies')],
+        ['medicines.html',tr('nav.medicines','Medicines & Alternatives')],
         ['tracker.html',tr('nav.tracker','Daily Tracker')],
-        ['quizzes.html',tr('nav.quizzes','Quizzes')]
+        ['quizzes.html',tr('nav.quizzes','Quizzes')],
+        ['encouragement.html',tr('nav.encouragement','Faith & Encouragement')]
       ]},
       {type:'link', href:'notes.html', text:tr('nav.notes','My Notes')},
       {type:'link', href:'community.html', text:tr('nav.community','Community')},
@@ -273,8 +275,10 @@ const T21 = {
           <h5>${tr('foot.act','Act')}</h5>
           <a href="proposals.html">${tr('nav.proposals','Proposals')}</a>
           <a href="natural-remedies.html">${tr('nav.remedies','Natural remedies')}</a>
+          <a href="medicines.html">${tr('nav.medicines','Medicines & alternatives')}</a>
           <a href="tracker.html">${tr('nav.tracker','Daily tracker')}</a>
           <a href="quizzes.html">${tr('nav.quizzes','Quizzes')}</a>
+          <a href="encouragement.html">${tr('nav.encouragement','Faith & encouragement')}</a>
           <a href="notes.html">${tr('nav.notes','My notes')}</a>
           <a href="community.html">${tr('nav.community','Community Q&A')}</a>
           <a href="evidence.html">${fr?'Sources':'Sources'}</a>

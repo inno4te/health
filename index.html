@@ -56,6 +56,82 @@
     .sect-grid{grid-template-columns:1fr}
     .features{grid-template-columns:1fr 1fr}
   }
+
+  /* ===== Health Tips Marquee ===== */
+  .tips-marquee{
+    max-width:1320px;
+    margin:50px auto 20px;
+    padding:0 28px;
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:20px;
+    align-items:center;
+  }
+  .marquee-label{
+    font-family:"JetBrains Mono",monospace;
+    font-size:10px;
+    letter-spacing:.16em;
+    color:var(--accent);
+    white-space:nowrap;
+    padding:10px 14px;
+    border:1px solid var(--accent);
+    border-radius:2px;
+    background:var(--bg);
+  }
+  .marquee-viewport{
+    overflow:hidden;
+    position:relative;
+    border-top:1px solid var(--rule);
+    border-bottom:1px solid var(--rule);
+    padding:14px 0;
+    mask-image:linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    -webkit-mask-image:linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  }
+  .marquee-track{
+    display:inline-flex;
+    gap:0;
+    animation: marquee 80s linear infinite;
+    white-space:nowrap;
+    will-change:transform;
+  }
+  .marquee-track:hover{animation-play-state:paused}
+  .marquee-tip{
+    display:inline-flex;
+    align-items:center;
+    gap:12px;
+    padding:0 32px;
+    font-family:"Fraunces",serif;
+    font-style:italic;
+    font-weight:300;
+    font-size:17px;
+    color:var(--ink);
+    line-height:1.4;
+    flex-shrink:0;
+  }
+  .marquee-tip .dot{
+    width:5px;
+    height:5px;
+    border-radius:50%;
+    background:var(--accent);
+    flex-shrink:0;
+  }
+  .marquee-icon{
+    font-size:18px;
+    line-height:1;
+    font-style:normal;
+  }
+  @keyframes marquee{
+    from{transform:translateX(0)}
+    to{transform:translateX(-50%)}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .marquee-track{animation-duration:200s}
+  }
+  @media (max-width:700px){
+    .tips-marquee{grid-template-columns:1fr;gap:10px}
+    .marquee-label{justify-self:start;padding:6px 10px;font-size:9px}
+    .marquee-tip{font-size:15px;padding:0 22px}
+  }
 </style>
 </head>
 <body>
@@ -109,6 +185,14 @@
     <div class="num">~40%</div>
     <div class="lbl">of new cancer cases linked to modifiable risk</div>
     <div class="src">— American Cancer Society, 2024</div>
+  </div>
+</div>
+
+<!-- ===== Daily Tips Marquee ===== -->
+<div class="tips-marquee" aria-label="Rotating health tips">
+  <div class="marquee-label">DAILY · GENTLE · REMINDERS</div>
+  <div class="marquee-viewport">
+    <div class="marquee-track" id="tipsTrack"></div>
   </div>
 </div>
 
@@ -233,6 +317,18 @@
       <p>Submit your own questions, leave notes on entries, and read what others are asking. Sign in to post; anyone can read.</p>
       <span class="arrow">Join the conversation →</span>
     </a>
+    <a class="sect-card" href="medicines.html">
+      <span class="num">10 / PHARMACY</span>
+      <h3>Medicines &amp; Natural Alternatives</h3>
+      <p>20+ common medicines used across Africa, Europe and the US — Efferalgan, Artefan, Amoxil, Brufen and more — with brand names, doses, real side effects, and evidence-based natural alternatives.</p>
+      <span class="arrow">Open the medicine cabinet →</span>
+    </a>
+    <a class="sect-card" href="encouragement.html">
+      <span class="num">11 / FAITH</span>
+      <h3>Faith &amp; Encouragement</h3>
+      <p>Scripture for hard seasons — for fear, exhaustion, grief, hopelessness, and uncertainty. Eight life situations, forty verses, practical spiritual disciplines that support wellbeing.</p>
+      <span class="arrow">Find encouragement →</span>
+    </a>
   </div>
 </section>
 
@@ -269,6 +365,48 @@
 <script src="lang.js"></script>
 <script src="shared.js"></script>
 <script src="components.js"></script>
-<script>T21.boot('index.html');</script>
+<script>
+T21.boot('index.html');
+
+// ===== Health tips marquee =====
+const TIPS = [
+  {ic:'💧', en:'Drink water — your body is 60% water', fr:'Buvez de l\'eau — votre corps est composé à 60 % d\'eau'},
+  {ic:'☀️', en:'Go outside and enjoy God\'s creation', fr:'Sortez et profitez de la création de Dieu'},
+  {ic:'🌬️', en:'Breathe in deeply — slow, six breaths a minute', fr:'Respirez profondément — six respirations lentes par minute'},
+  {ic:'🚶', en:'Stand up. Stretch. Walk a little — every hour', fr:'Levez-vous. Étirez-vous. Marchez un peu — chaque heure'},
+  {ic:'🥗', en:'Add one extra vegetable to your next meal', fr:'Ajoutez un légume supplémentaire à votre prochain repas'},
+  {ic:'🍵', en:'Try hibiscus tea (bissap) — it gently lowers blood pressure', fr:'Essayez le thé d\'hibiscus (bissap) — il abaisse doucement la tension'},
+  {ic:'😴', en:'Protect 7–9 hours of sleep — it heals what nothing else can', fr:'Protégez 7–9 heures de sommeil — il guérit ce qui ne se guérit pas autrement'},
+  {ic:'📵', en:'Put the phone down an hour before bed', fr:'Posez le téléphone une heure avant le coucher'},
+  {ic:'💭', en:'Name three things you are grateful for today', fr:'Nommez trois choses pour lesquelles vous êtes reconnaissant aujourd\'hui'},
+  {ic:'🙏', en:'Pause. Pray. Even one minute of stillness changes the day', fr:'Faites une pause. Priez. Une minute de calme change la journée'},
+  {ic:'☎️', en:'Call someone you love today — voice, not text', fr:'Appelez quelqu\'un que vous aimez aujourd\'hui — la voix, pas un SMS'},
+  {ic:'🥥', en:'Replace one sugary drink with water or coconut water', fr:'Remplacez une boisson sucrée par de l\'eau ou de l\'eau de coco'},
+  {ic:'🦷', en:'Brush twice, floss once — gum health protects the heart', fr:'Brossez-vous les dents deux fois, fil dentaire une fois — la santé des gencives protège le cœur'},
+  {ic:'🌞', en:'Get 10 minutes of morning sunlight — it sets your sleep clock', fr:'Prenez 10 minutes de soleil matinal — cela règle votre horloge du sommeil'},
+  {ic:'🧂', en:'Swap the salt shaker for ginger, garlic and lemon', fr:'Remplacez la salière par du gingembre, de l\'ail et du citron'},
+  {ic:'🫶', en:'Forgive someone — first for yourself, then for them', fr:'Pardonnez à quelqu\'un — d\'abord pour vous, ensuite pour lui'},
+  {ic:'📖', en:'Read one page. Then another. Reading is medicine for the mind', fr:'Lisez une page. Puis une autre. La lecture est un remède pour l\'esprit'},
+  {ic:'🎵', en:'Sing along to one song — it changes your breathing pattern', fr:'Chantez avec une chanson — cela modifie votre respiration'},
+  {ic:'🌳', en:'Stand among trees for 20 minutes — measurably lowers stress', fr:'Restez 20 minutes parmi les arbres — réduit le stress de façon mesurable'},
+  {ic:'🥜', en:'A small handful of nuts a day protects your heart', fr:'Une petite poignée de noix par jour protège votre cœur'},
+  {ic:'❤️', en:'You are wonderfully made — take care of the body you were given', fr:'Vous êtes merveilleusement faits — prenez soin du corps que vous avez reçu'},
+  {ic:'😊', en:'Smile at a stranger today — kindness is contagious', fr:'Souriez à un inconnu aujourd\'hui — la gentillesse est contagieuse'},
+  {ic:'🧘', en:'Sit still for two minutes. Listen. Then continue', fr:'Restez immobile deux minutes. Écoutez. Puis continuez'},
+  {ic:'🍌', en:'Eat fruit you can hold in your hand — not from a packet', fr:'Mangez un fruit que vous tenez dans la main — pas en sachet'},
+  {ic:'🏃', en:'A brisk 30-minute walk lowers blood pressure for 24 hours', fr:'30 minutes de marche rapide abaissent la tension pendant 24 heures'},
+  {ic:'🛌', en:'Make your bedroom dark, cool and quiet — your sleep will follow', fr:'Rendez votre chambre sombre, fraîche et silencieuse — le sommeil suivra'},
+  {ic:'🤝', en:'Help someone today — it heals the helper more than the helped', fr:'Aidez quelqu\'un aujourd\'hui — cela guérit l\'aidant plus que l\'aidé'},
+  {ic:'🍋', en:'Warm water and lemon in the morning — gentle and grounding', fr:'Eau tiède au citron le matin — doux et ancrant'},
+  {ic:'💪', en:'Build strength twice a week — your future self will thank you', fr:'Renforcez votre musculature deux fois par semaine — votre futur vous remerciera'},
+  {ic:'✨', en:'Rest is sacred. The world will keep turning if you stop.', fr:'Le repos est sacré. Le monde continuera de tourner si vous vous arrêtez.'}
+];
+
+const fr = window.T21Lang && T21Lang.current==='fr';
+const track = document.getElementById('tipsTrack');
+// Double the list so the loop is seamless
+const renderTip = t => `<span class="marquee-tip"><span class="marquee-icon">${t.ic}</span><span>${fr ? t.fr : t.en}</span><span class="dot"></span></span>`;
+track.innerHTML = TIPS.map(renderTip).join('') + TIPS.map(renderTip).join('');
+</script>
 </body>
 </html>
