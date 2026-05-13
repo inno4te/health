@@ -144,29 +144,73 @@ const T21 = {
 
   /* ---------- NAV INJECTOR ---------- */
   injectNav(activePath){
-    const links = [
-      ['index.html','Home'],
-      ['carcinogens.html','Carcinogens'],
-      ['additives.html','Food Additives'],
-      ['lifestyle.html','Lifestyle'],
-      ['proposals.html','Proposals'],
-      ['tracker.html','Tracker'],
-      ['notes.html','My Notes'],
-      ['community.html','Community Q&A'],
-      ['evidence.html','Evidence']
+    // Grouped navigation: dropdowns for Risks and Body Systems
+    const groups = [
+      {type:'link', href:'index.html', text:'Home'},
+      {type:'menu', label:'Risks', items:[
+        ['carcinogens.html','Carcinogen Library'],
+        ['additives.html','Food Additives'],
+        ['lifestyle.html','Lifestyle & Environment'],
+        ['african-diet.html','African Diet & Cooking']
+      ]},
+      {type:'menu', label:'Body Systems', items:[
+        ['heart.html','Heart & Circulation'],
+        ['sleep.html','Sleep'],
+        ['brain.html','Brain & Mind'],
+        ['gut.html','Gut & Digestion'],
+        ['kidneys.html','Kidneys & Liver'],
+        ['skin.html','Skin'],
+        ['eyes.html','Eyes & Vision'],
+        ['women.html','Women\'s Health'],
+        ['men.html','Men\'s Health']
+      ]},
+      {type:'menu', label:'Act', items:[
+        ['proposals.html','Proposals'],
+        ['natural-remedies.html','Natural Remedies'],
+        ['tracker.html','Daily Tracker'],
+        ['quizzes.html','Quizzes']
+      ]},
+      {type:'link', href:'notes.html', text:'My Notes'},
+      {type:'link', href:'community.html', text:'Community'},
+      {type:'link', href:'evidence.html', text:'Evidence'}
     ];
+
     const navWrap = document.querySelector('.nav-inner');
     if(!navWrap) return;
-    const linksWrap = navWrap.querySelector('.nav-links') || document.createElement('div');
-    linksWrap.className = 'nav-links';
-    linksWrap.innerHTML = links.map(([h,t]) =>
-      `<a href="${h}" ${ (activePath===h ? 'class="active"' : '') }>${t}</a>`
-    ).join('');
-    if(!navWrap.querySelector('.nav-links')){
-      // insert before nav-cta
+    let linksWrap = navWrap.querySelector('.nav-links');
+    if(!linksWrap){
+      linksWrap = document.createElement('div');
+      linksWrap.className = 'nav-links';
       const cta = navWrap.querySelector('.nav-cta');
       navWrap.insertBefore(linksWrap, cta);
     }
+    linksWrap.innerHTML = groups.map(g=>{
+      if(g.type==='link'){
+        const active = activePath===g.href ? 'class="active"' : '';
+        return `<a href="${g.href}" ${active}>${g.text}</a>`;
+      }
+      const activeInGroup = g.items.some(([h])=> h===activePath);
+      const items = g.items.map(([h,t])=> `<a href="${h}" ${activePath===h?'class="active"':''}>${t}</a>`).join('');
+      return `<div class="nav-menu ${activeInGroup?'has-active':''}">
+        <button class="nav-menu-btn ${activeInGroup?'active':''}">${g.label} <span class="caret">▾</span></button>
+        <div class="nav-menu-pop">${items}</div>
+      </div>`;
+    }).join('');
+
+    // Dropdown toggle (click to open on mobile, hover on desktop)
+    linksWrap.querySelectorAll('.nav-menu-btn').forEach(btn=>{
+      btn.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        const menu = btn.closest('.nav-menu');
+        const wasOpen = menu.classList.contains('open');
+        linksWrap.querySelectorAll('.nav-menu').forEach(m=>m.classList.remove('open'));
+        if(!wasOpen) menu.classList.add('open');
+      });
+    });
+    document.addEventListener('click', ()=>{
+      linksWrap.querySelectorAll('.nav-menu').forEach(m=>m.classList.remove('open'));
+    });
+
     // Mobile toggle
     let mt = navWrap.querySelector('.mobile-toggle');
     if(!mt){
@@ -187,31 +231,42 @@ const T21 = {
       <div class="foot-inner">
         <div class="foot-brand">
           <div class="brand-name" style="font-family:'Fraunces',serif">Team21 Health Platform</div>
-          <p>An evidence-based preventive-health resource mapping the dietary, environmental and behavioural factors implicated in cancer and chronic disease — drawn from IARC, WHO, NIH, AICR and the leading medical journals.</p>
+          <p>A comprehensive, evidence-based preventive-health resource — mapping the dietary, environmental, behavioural and systemic factors implicated in cancer, cardiovascular disease, metabolic disorders and chronic illness — drawn from IARC, WHO, NIH, AHA, AICR and the leading medical journals.</p>
         </div>
         <div class="foot-col">
-          <h5>Explore</h5>
+          <h5>Risks</h5>
           <a href="carcinogens.html">Carcinogens</a>
           <a href="additives.html">Food additives</a>
-          <a href="lifestyle.html">Lifestyle</a>
-          <a href="proposals.html">Proposals</a>
+          <a href="lifestyle.html">Lifestyle &amp; environment</a>
+          <a href="african-diet.html">African diet &amp; cooking</a>
         </div>
         <div class="foot-col">
-          <h5>Your Account</h5>
+          <h5>Body Systems</h5>
+          <a href="heart.html">Heart</a>
+          <a href="sleep.html">Sleep</a>
+          <a href="brain.html">Brain &amp; mind</a>
+          <a href="gut.html">Gut</a>
+          <a href="kidneys.html">Kidneys &amp; liver</a>
+          <a href="skin.html">Skin</a>
+          <a href="eyes.html">Eyes</a>
+          <a href="women.html">Women's health</a>
+          <a href="men.html">Men's health</a>
+        </div>
+        <div class="foot-col">
+          <h5>Act</h5>
+          <a href="proposals.html">Proposals</a>
+          <a href="natural-remedies.html">Natural remedies</a>
           <a href="tracker.html">Daily tracker</a>
+          <a href="quizzes.html">Quizzes</a>
           <a href="notes.html">My notes</a>
           <a href="community.html">Community Q&amp;A</a>
-        </div>
-        <div class="foot-col">
-          <h5>Editorial</h5>
           <a href="evidence.html">Sources</a>
           <a href="evidence.html#disclaimer">Disclaimer</a>
-          <span style="display:block;color:#a8b8af;font-size:13px;padding:4px 0">Editor — Innocent Forteh</span>
         </div>
       </div>
       <div class="foot-bottom">
         <div class="copy">© Innocent Forteh · Team21 Health Platform · All rights reserved.</div>
-        <div>For educational use only · Not medical advice.</div>
+        <div>Edited by Innocent Forteh · For educational use only · Not medical advice.</div>
       </div>`;
     document.body.appendChild(f);
   },
