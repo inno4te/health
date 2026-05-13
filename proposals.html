@@ -62,26 +62,34 @@
 </main>
 
 <script src="data.js"></script>
+<script src="lang-data.js"></script>
+<script src="lang.js"></script>
 <script src="shared.js"></script>
 <script src="components.js"></script>
 <script>
 T21.boot('proposals.html');
 
 const grid = document.getElementById('propGrid');
+const _fr = window.T21Lang && T21Lang.current==='fr';
+const _bL = _fr ? '☆ Favori' : '☆ Bookmark';
+const _nL = _fr ? '✎ Ajouter une note' : '✎ Add note';
 PROPOSALS.forEach((p, idx)=>{
   const id = 'proposal-' + idx;
-  const hay = [p.h, p.p, p.ev].join(' ').toLowerCase();
+  const tr = _fr ? T21Lang.Td('proposal', idx) : null;
+  const h = (tr && tr.h) || p.h;
+  const pTxt = (tr && tr.p) || p.p;
+  const hay = [h, pTxt, p.ev].join(' ').toLowerCase();
   const el = document.createElement('div');
   el.className = 'proposal';
   el.dataset.search = hay;
   el.innerHTML = `
     <div class="proposal-icon">${p.ic}</div>
-    <h4>${p.h}</h4>
-    <p>${p.p}</p>
+    <h4>${h}</h4>
+    <p>${pTxt}</p>
     <div class="ev">${p.ev}</div>
     <div class="actions">
-      <button class="action-btn" data-act="bookmark" data-id="${id}" data-name="${p.h.replace(/"/g,'&quot;')}">☆ Bookmark</button>
-      <button class="action-btn" data-act="note" data-id="${id}" data-name="${p.h.replace(/"/g,'&quot;')}">✎ Add note</button>
+      <button class="action-btn" data-act="bookmark" data-id="${id}" data-name="${h.replace(/"/g,'&quot;')}">${_bL}</button>
+      <button class="action-btn" data-act="note" data-id="${id}" data-name="${h.replace(/"/g,'&quot;')}">${_nL}</button>
     </div>`;
   grid.appendChild(el);
 });

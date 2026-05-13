@@ -118,30 +118,48 @@
 
 <script src="data.js"></script>
 <script src="data-ext.js"></script>
+<script src="lang-data.js"></script>
+<script src="lang.js"></script>
 <script src="shared.js"></script>
 <script src="components.js"></script>
 <script>
 T21.boot('african-diet.html');
 
+const _afFR = window.T21Lang && T21Lang.current==='fr';
+const _tagLabels = _afFR
+  ? {good:'À manger', mid:'Prudence', bad:'Limiter'}
+  : {good:'Eat', mid:'Caution', bad:'Limit'};
+
 const fg = document.getElementById('foodGrid');
-fg.innerHTML = AFRICAN_FOODS.map(f=>`
+fg.innerHTML = AFRICAN_FOODS.map(f=>{
+  const tr = _afFR ? T21Lang.Td('africanFood', f.nm) : null;
+  const nm = (tr && tr.nm) || f.nm;
+  const desc = (tr && tr.desc) || f.desc;
+  const why = (tr && tr.why) || f.why;
+  return `
   <div class="food-row ${f.cat}">
-    <h5>${f.nm}<span class="tag">${f.cat==='good'?'Eat':f.cat==='mid'?'Caution':'Limit'}</span></h5>
-    <p>${f.desc}</p>
-    <span class="why">${f.why}</span>
-  </div>
-`).join('');
+    <h5>${nm}<span class="tag">${_tagLabels[f.cat]}</span></h5>
+    <p>${desc}</p>
+    <span class="why">${why}</span>
+  </div>`;
+}).join('');
 
 const tbody = document.getElementById('cookTbody');
-tbody.innerHTML = COOKING_METHODS.map(m=>`
+tbody.innerHTML = COOKING_METHODS.map(m=>{
+  const tr = _afFR ? T21Lang.Td('cooking', m.method) : null;
+  const mname = (tr && tr.method) || m.method;
+  const forms = (tr && tr.forms) || m.forms;
+  const use = (tr && tr.use) || m.use;
+  const notes = (tr && tr.notes) || m.notes;
+  return `
   <tr>
-    <td><span class="rank">${m.method}</span></td>
+    <td><span class="rank">${mname}</span></td>
     <td><span class="pill ${m.cls}">${m.rating}</span></td>
-    <td>${m.forms}</td>
-    <td>${m.use}</td>
-    <td>${m.notes}</td>
-  </tr>
-`).join('');
+    <td>${forms}</td>
+    <td>${use}</td>
+    <td>${notes}</td>
+  </tr>`;
+}).join('');
 </script>
 </body>
 </html>

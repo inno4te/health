@@ -5,40 +5,54 @@ function renderSystemPage(key){
   const data = SYSTEMS[key];
   if(!data){ console.warn('No system data for', key); return; }
 
-  document.title = data.title + ' — Team21 Health Platform';
+  const fr = window.T21Lang && T21Lang.current==='fr';
+  const trSys = fr ? T21Lang.Td('system', key) : null;
+
+  // Translated copies
+  const title = (trSys && trSys.title) || data.title;
+  const eyebrow = (trSys && trSys.eyebrow) || data.eyebrow;
+  const intro = (trSys && trSys.intro) || data.intro;
+
+  document.title = title + ' — Team21 Health Platform';
 
   const head = document.getElementById('sysHead');
   if(head){
     head.innerHTML = `
       <div>
-        <div class="eyebrow">${data.eyebrow}</div>
-        <h1>${data.titleHTML || data.title.replace(/(\w+)$/, '<em>$1</em>')}</h1>
-        <p class="intro">${data.intro}</p>
+        <div class="eyebrow">${eyebrow}</div>
+        <h1>${title.replace(/(\w+)$/, '<em>$1</em>')}</h1>
+        <p class="intro">${intro}</p>
       </div>
-      <div class="meta">EVIDENCE-BASED<br>SOURCED · CITED<br>UPDATED 2026</div>`;
+      <div class="meta">${fr ? 'BASÉ SUR DES PREUVES<br>SOURCÉ · CITÉ<br>MIS À JOUR EN 2026' : 'EVIDENCE-BASED<br>SOURCED · CITED<br>UPDATED 2026'}</div>`;
   }
 
   // Key numbers
   const kv = document.getElementById('sysKV');
   if(kv && data.keyNumbers){
-    kv.innerHTML = data.keyNumbers.map(n=>`
-      <div class="kv"><div class="k">${n.k}</div><div class="v">${n.v}</div><div class="s">${n.s||''}</div></div>
-    `).join('');
+    kv.innerHTML = data.keyNumbers.map((n, i)=>{
+      const k = (trSys && trSys.kvK && trSys.kvK[i]) || n.k;
+      const s = (trSys && trSys.kvS && trSys.kvS[i]) || n.s || '';
+      return `<div class="kv"><div class="k">${k}</div><div class="v">${n.v}</div><div class="s">${s}</div></div>`;
+    }).join('');
   }
 
   // Tips
   const tips = document.getElementById('sysTips');
+  const bL = fr ? '☆ Favori' : '☆ Bookmark';
+  const nL = fr ? '✎ Ajouter une note' : '✎ Add note';
   if(tips && data.tips){
-    tips.innerHTML = data.tips.map(t=>{
-      const hay = (t.h + ' ' + t.p + ' ' + t.ev).toLowerCase();
+    tips.innerHTML = data.tips.map((t, i)=>{
+      const h = (trSys && trSys.tipsH && trSys.tipsH[i]) || t.h;
+      const p = (trSys && trSys.tipsP && trSys.tipsP[i]) || t.p;
+      const hay = (h + ' ' + p + ' ' + t.ev).toLowerCase();
       return `<article class="tip" data-search="${hay.replace(/"/g,'&quot;')}">
         <div class="num">${t.n}</div>
-        <h4>${t.h}</h4>
-        <p>${t.p}</p>
+        <h4>${h}</h4>
+        <p>${p}</p>
         <div class="ev">${t.ev}</div>
         <div class="topic-actions" style="margin-top:8px;padding-top:8px">
-          <button class="action-btn" data-act="bookmark" data-id="${key}-${t.n}" data-name="${t.h.replace(/"/g,'&quot;')}">☆ Bookmark</button>
-          <button class="action-btn" data-act="note" data-id="${key}-${t.n}" data-name="${t.h.replace(/"/g,'&quot;')}">✎ Add note</button>
+          <button class="action-btn" data-act="bookmark" data-id="${key}-${t.n}" data-name="${h.replace(/"/g,'&quot;')}">${bL}</button>
+          <button class="action-btn" data-act="note" data-id="${key}-${t.n}" data-name="${h.replace(/"/g,'&quot;')}">${nL}</button>
         </div>
       </article>`;
     }).join('');
@@ -48,7 +62,11 @@ function renderSystemPage(key){
   // Warnings
   const warns = document.getElementById('sysWarns');
   if(warns && data.warnings){
-    warns.innerHTML = data.warnings.map(w=>`<div class="warn"><strong>${w.h}</strong>${w.p}</div>`).join('');
+    warns.innerHTML = data.warnings.map((w, i)=>{
+      const h = (trSys && trSys.warnsH && trSys.warnsH[i]) || w.h;
+      const p = (trSys && trSys.warnsP && trSys.warnsP[i]) || w.p;
+      return `<div class="warn"><strong>${h}</strong>${p}</div>`;
+    }).join('');
   } else if(warns){
     warns.style.display='none';
   }
@@ -56,15 +74,19 @@ function renderSystemPage(key){
   // Foods to eat / avoid
   const foodWrap = document.getElementById('sysFoods');
   if(foodWrap && data.foods){
+    const eatList = (trSys && trSys.foodsEat) || data.foods.eat;
+    const avoidList = (trSys && trSys.foodsAvoid) || data.foods.avoid;
+    const eatLbl = fr ? 'À consommer régulièrement' : 'Eat regularly';
+    const avoidLbl = fr ? 'À limiter ou à éviter' : 'Limit or avoid';
     foodWrap.innerHTML = `
       <div class="info-grid">
         <div class="info-card">
-          <h4 style="color:var(--good)">Eat regularly</h4>
-          <ul>${data.foods.eat.map(f=>`<li>${f}</li>`).join('')}</ul>
+          <h4 style="color:var(--good)">${eatLbl}</h4>
+          <ul>${eatList.map(f=>`<li>${f}</li>`).join('')}</ul>
         </div>
         <div class="info-card">
-          <h4 style="color:var(--accent)">Limit or avoid</h4>
-          <ul>${data.foods.avoid.map(f=>`<li>${f}</li>`).join('')}</ul>
+          <h4 style="color:var(--accent)">${avoidLbl}</h4>
+          <ul>${avoidList.map(f=>`<li>${f}</li>`).join('')}</ul>
         </div>
       </div>`;
   } else if(foodWrap){

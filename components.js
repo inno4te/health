@@ -2,6 +2,15 @@
 
 /* Render a topic card with interactive actions: Bookmark, Note, Ask */
 function renderTopic(t){
+  const tr = (window.T21Lang && T21Lang.current === 'fr') ? T21Lang.Td('topic', t.id, undefined, null) : null;
+  const name = (tr && tr.name) || t.name;
+  const sub  = (tr && tr.sub)  || t.sub;
+  // IARC label translation
+  let iarcLabel = t.iarcLabel;
+  if(window.T21Lang && T21Lang.current === 'fr' && window.FR_UI && FR_UI[t.iarcLabel]){
+    iarcLabel = FR_UI[t.iarcLabel];
+  }
+
   const blocks = t.blocks.map(b=>{
     if(b.list){
       return `<div class="topic-block"><h5>${b.h}</h5><ul>${b.list.map(li=>`<li>${li}</li>`).join('')}</ul></div>`;
@@ -11,19 +20,25 @@ function renderTopic(t){
 
   const searchHay = [t.name, t.sub, ...t.blocks.flatMap(b => (b.p? [b.p]:[]).concat(b.list||[]))].join(' ').toLowerCase();
 
+  // Translated action labels
+  const bL = (window.T21Lang && T21Lang.current==='fr') ? '☆ Favori' : '☆ Bookmark';
+  const nL = (window.T21Lang && T21Lang.current==='fr') ? '✎ Ajouter une note' : '✎ Add note';
+  const aL = (window.T21Lang && T21Lang.current==='fr') ? '? Poser une question' : '? Ask question';
+  const srcLbl = (window.T21Lang && T21Lang.current==='fr') ? 'Sources :' : 'Sources:';
+
   return `
     <article class="topic" data-id="${t.id}" data-search="${searchHay.replace(/"/g,'&quot;')}">
       <div class="topic-header">
-        <h3 class="topic-name">${t.name}<small>${t.sub}</small></h3>
-        <span class="iarc ${t.iarc}">${t.iarcLabel}</span>
+        <h3 class="topic-name">${name}<small>${sub}</small></h3>
+        <span class="iarc ${t.iarc}">${iarcLabel}</span>
       </div>
       <div class="topic-body">
         ${blocks}
-        <p class="topic-cite"><strong>Sources:</strong> ${t.cite}</p>
+        <p class="topic-cite"><strong>${srcLbl}</strong> ${t.cite}</p>
         <div class="topic-actions">
-          <button class="action-btn" data-act="bookmark" data-id="${t.id}" data-name="${t.name.replace(/"/g,'&quot;')}">☆ Bookmark</button>
-          <button class="action-btn" data-act="note" data-id="${t.id}" data-name="${t.name.replace(/"/g,'&quot;')}">✎ Add note</button>
-          <button class="action-btn" data-act="ask" data-id="${t.id}" data-name="${t.name.replace(/"/g,'&quot;')}">? Ask question</button>
+          <button class="action-btn" data-act="bookmark" data-id="${t.id}" data-name="${name.replace(/"/g,'&quot;')}">${bL}</button>
+          <button class="action-btn" data-act="note" data-id="${t.id}" data-name="${name.replace(/"/g,'&quot;')}">${nL}</button>
+          <button class="action-btn" data-act="ask" data-id="${t.id}" data-name="${name.replace(/"/g,'&quot;')}">${aL}</button>
         </div>
       </div>
     </article>`;
@@ -54,16 +69,19 @@ function wireTopicActions(container){
 
 async function refreshBookmarkStates(container){
   if(!T21.user || !T21.storage) return;
+  const fr = window.T21Lang && T21Lang.current==='fr';
+  const onLabel = fr ? '★ En favori' : '★ Bookmarked';
+  const offLabel = fr ? '☆ Favori' : '☆ Bookmark';
   try{
     const r = await T21.storage.get(`t21:${T21.user.email}:bookmarks`);
     const set = r && r.value ? JSON.parse(r.value) : [];
     container.querySelectorAll('.action-btn[data-act=bookmark]').forEach(b=>{
       if(set.includes(b.dataset.id)){
         b.classList.add('active');
-        b.textContent = '★ Bookmarked';
+        b.textContent = onLabel;
       } else {
         b.classList.remove('active');
-        b.textContent = '☆ Bookmark';
+        b.textContent = offLabel;
       }
     });
   }catch(_){}
@@ -71,17 +89,18 @@ async function refreshBookmarkStates(container){
 
 async function toggleBookmark(id, name, btn){
   if(!T21.storage){ T21.toast('Storage unavailable','error'); return; }
+  const fr = window.T21Lang && T21Lang.current==='fr';
   const key = `t21:${T21.user.email}:bookmarks`;
   let list = [];
   try{ const r = await T21.storage.get(key); if(r && r.value) list = JSON.parse(r.value); }catch(_){}
   if(list.includes(id)){
     list = list.filter(x=>x!==id);
-    btn.classList.remove('active'); btn.textContent = '☆ Bookmark';
-    T21.toast('Bookmark removed');
+    btn.classList.remove('active'); btn.textContent = fr ? '☆ Favori' : '☆ Bookmark';
+    T21.toast(fr ? 'Favori retiré' : 'Bookmark removed');
   } else {
     list.push(id);
-    btn.classList.add('active'); btn.textContent = '★ Bookmarked';
-    T21.toast('Bookmarked','success');
+    btn.classList.add('active'); btn.textContent = fr ? '★ En favori' : '★ Bookmarked';
+    T21.toast(fr ? 'Mis en favori' : 'Bookmarked','success');
   }
   try{ await T21.storage.set(key, JSON.stringify(list)); }catch(_){ T21.toast('Could not save','error'); }
 }

@@ -116,27 +116,35 @@
 </main>
 
 <script src="data.js"></script>
+<script src="lang-data.js"></script>
+<script src="lang.js"></script>
 <script src="shared.js"></script>
 <script src="components.js"></script>
 <script>
 T21.boot('tracker.html');
 
 const habitList = document.getElementById('habitList');
+const _tFR = window.T21Lang && T21Lang.current==='fr';
 HABITS.forEach(h=>{
+  const trH = _tFR ? T21Lang.Td('habit', h.id) : null;
+  const lbl = (trH && trH.label) || h.label;
+  const sub = (trH && trH.sub) || h.sub;
+  const tag = (trH && trH.tag) || h.tag;
   const row = document.createElement('label');
   row.className = 'habit';
   row.dataset.id = h.id;
   row.innerHTML = `
     <input type="checkbox" data-id="${h.id}">
-    <div class="habit-text">${h.label}<small>${h.sub}</small></div>
-    <span class="habit-tag">${h.tag}</span>`;
+    <div class="habit-text">${lbl}<small>${sub}</small></div>
+    <span class="habit-tag">${tag}</span>`;
   habitList.appendChild(row);
 });
 
 function setDateLabel(){
   const d = new Date();
+  const locale = _tFR ? 'fr-FR' : 'en-US';
   document.getElementById('trackerDate').textContent =
-    d.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'}).toUpperCase() + ' · ' + T21.todayKey();
+    d.toLocaleDateString(locale,{weekday:'long',year:'numeric',month:'long',day:'numeric'}).toUpperCase() + ' · ' + T21.todayKey();
 }
 setDateLabel();
 

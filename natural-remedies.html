@@ -108,26 +108,37 @@
 
 <script src="data.js"></script>
 <script src="data-ext.js"></script>
+<script src="lang-data.js"></script>
+<script src="lang.js"></script>
 <script src="shared.js"></script>
 <script src="components.js"></script>
 <script>
 T21.boot('natural-remedies.html');
 
 const wrap = document.getElementById('remedyGrid');
+const _rFR = window.T21Lang && T21Lang.current==='fr';
+const _bL_r = _rFR ? '☆ Favori' : '☆ Bookmark';
+const _nL_r = _rFR ? '✎ Ajouter une note' : '✎ Add note';
+const _aL_r = _rFR ? '? Poser une question' : '? Ask question';
+const _howLabel = _rFR ? 'Comment utiliser' : 'How to use';
 wrap.innerHTML = REMEDIES.map(r=>{
-  const hay = (r.name+' '+r.sub+' '+r.uses+' '+r.how+' '+r.ev).toLowerCase();
+  const tr = _rFR ? T21Lang.Td('remedy', r.name) : null;
+  const name = (tr && tr.name) || r.name;
+  const sub = (tr && tr.sub) || r.sub;
+  const hay = (name+' '+sub+' '+r.uses+' '+r.how+' '+r.ev).toLowerCase();
+  const rid = 'remedy-'+r.name.toLowerCase().replace(/\s+/g,'-');
   return `<article class="remedy" data-search="${hay.replace(/"/g,'&quot;')}">
     <div class="remedy-head">
       <div class="remedy-icon">${r.ic}</div>
-      <h3>${r.name}<small>${r.sub}</small></h3>
+      <h3>${name}<small>${sub}</small></h3>
     </div>
     <div class="uses">${r.uses}</div>
-    <div class="topic-block"><h5>How to use</h5><p>${r.how}</p></div>
+    <div class="topic-block"><h5>${_howLabel}</h5><p>${r.how}</p></div>
     <div class="ev">${r.ev}</div>
     <div class="topic-actions">
-      <button class="action-btn" data-act="bookmark" data-id="remedy-${r.name.toLowerCase().replace(/\s+/g,'-')}" data-name="${r.name.replace(/"/g,'&quot;')}">☆ Bookmark</button>
-      <button class="action-btn" data-act="note" data-id="remedy-${r.name.toLowerCase().replace(/\s+/g,'-')}" data-name="${r.name.replace(/"/g,'&quot;')}">✎ Add note</button>
-      <button class="action-btn" data-act="ask" data-id="remedy-${r.name.toLowerCase().replace(/\s+/g,'-')}" data-name="${r.name.replace(/"/g,'&quot;')}">? Ask question</button>
+      <button class="action-btn" data-act="bookmark" data-id="${rid}" data-name="${name.replace(/"/g,'&quot;')}">${_bL_r}</button>
+      <button class="action-btn" data-act="note" data-id="${rid}" data-name="${name.replace(/"/g,'&quot;')}">${_nL_r}</button>
+      <button class="action-btn" data-act="ask" data-id="${rid}" data-name="${name.replace(/"/g,'&quot;')}">${_aL_r}</button>
     </div>
   </article>`;
 }).join('');

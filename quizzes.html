@@ -85,6 +85,8 @@
 
 <script src="data.js"></script>
 <script src="data-ext.js"></script>
+<script src="lang-data.js"></script>
+<script src="lang.js"></script>
 <script src="shared.js"></script>
 <script src="components.js"></script>
 <script>
@@ -109,13 +111,19 @@ async function saveScore(quizId, score, total){
 }
 
 function renderQuizList(){
+  const fr = window.T21Lang && T21Lang.current==='fr';
   const wrap = document.getElementById('quizList');
   wrap.innerHTML = QUIZZES.map(q=>{
+    const tr = fr ? T21Lang.Td('quiz', q.id) : null;
+    const title = (tr && tr.title) || q.title;
+    const intro = (tr && tr.intro) || q.intro;
     const sc = scoresCache[q.id];
-    const done = sc ? `<span class="ok">Last score: ${sc.score}/${sc.total} (${Math.round(sc.score/sc.total*100)}%)</span>` : `${q.questions.length} questions`;
+    const scoreLbl = fr ? 'Dernier score' : 'Last score';
+    const qLbl = fr ? 'questions' : 'questions';
+    const done = sc ? `<span class="ok">${scoreLbl}: ${sc.score}/${sc.total} (${Math.round(sc.score/sc.total*100)}%)</span>` : `${q.questions.length} ${qLbl}`;
     return `<div class="quiz-link ${sc?'done':''}" data-id="${q.id}">
-      <h3>${q.title}</h3>
-      <p>${q.intro}</p>
+      <h3>${title}</h3>
+      <p>${intro}</p>
       <div class="stat">${done}</div>
     </div>`;
   }).join('');
@@ -125,11 +133,13 @@ function renderQuizList(){
 }
 
 function startQuiz(id){
+  const fr = window.T21Lang && T21Lang.current==='fr';
   currentQuiz = QUIZZES.find(q=>q.id===id);
   currentAnswers = {};
   document.getElementById('quizListView').style.display = 'none';
   document.getElementById('quizRunner').classList.add('show');
-  document.getElementById('runnerTitle').textContent = currentQuiz.title;
+  const tr = fr ? T21Lang.Td('quiz', currentQuiz.id) : null;
+  document.getElementById('runnerTitle').textContent = (tr && tr.title) || currentQuiz.title;
   document.getElementById('quizScore').classList.remove('show');
   renderQuizCards();
   document.getElementById('quizRunner').scrollIntoView({behavior:'smooth',block:'start'});
